@@ -102,7 +102,7 @@ export default {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  width: 100vw;
+  width: 100%;
   height: 65px;
   .logo-home {
     // margin-left: 2%;
@@ -182,7 +182,7 @@ export default {
   top: 66px;
   left: 0;
   height: 0px;
-  width: 100vw;
+  width: 100%;
   transition: all 0.6s;
   overflow: hidden;
   .nav-hover-content {
