@@ -1,7 +1,7 @@
 <template>
   <div>
     <Nav />
-    <div style="width:100%;height:800px;background-color:#e5e5e5;">123123</div>
+    <router-view></router-view>
     <Footer />
   </div>
 </template>
