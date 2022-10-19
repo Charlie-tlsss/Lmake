@@ -77,6 +77,7 @@
         <a href=""><div class="Lmake-shop">梁造商城</div></a>
       </div>
     </div>
+    <div id="box1" style="height:65px;width:100%"></div>
   </div>
 </template>
 
@@ -99,6 +100,12 @@ export default {
   background-color: rgb(58, 58, 58);
 }
 .pc-header {
+  z-index: 999;
+  border-bottom: 1px solid #ddd;
+  background-color: #fff;
+  position:fixed;
+  left: 0;
+  top: 0;
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -177,9 +184,9 @@ export default {
 }
 
 .nav-hover {
-  border: 1px solid #ddd;
   position: absolute;
-  top: 66px;
+  background-color: #fff;
+  top: 65px;
   left: 0;
   height: 0px;
   width: 100%;
@@ -207,8 +214,7 @@ export default {
         width: 106px;
         height: 106px;
       }
-      goods-name {
-      }
+      
     }
   }
 }
