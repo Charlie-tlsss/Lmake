@@ -1,7 +1,7 @@
 <template>
   <div>
     <Nav />
-    <div style="width:100%;height:800px;background-color:skyblue;">123123</div>
+    <div style="width:100%;height:800px;background-color:#e5e5e5;">123123</div>
     <Footer />
   </div>
 </template>
