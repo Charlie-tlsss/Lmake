@@ -6,7 +6,7 @@
       </a>
       <div class="nav-lists">
         <ul>
-          <li>
+          <li  @mouseenter="changeMask" @mouseleave="changeMask">
             <a href="">手机</a>
             <div class="nav-hover">
               <div class="nav-hover-content">
@@ -30,7 +30,7 @@
             </div>
             <div class="shade"></div>
           </li>
-          <li>
+          <li  @mouseenter="changeMask" @mouseleave="changeMask">
             <a href=""> 笔记本 </a>
             <div class="nav-hover">
               <div class="nav-hover-content">
@@ -53,19 +53,19 @@
               </div>
             </div>
           </li>
-          <li>
+          <li  @mouseenter="changeMask" @mouseleave="changeMask">
             <a href="">平板</a>
             <div class="nav-hover">笔记本</div>
           </li>
-          <li>
+          <li  @mouseenter="changeMask" @mouseleave="changeMask">
             <a href="">穿戴</a>
             <div class="nav-hover">笔记本</div>
           </li>
-          <li>
+          <li @mouseenter="changeMask" @mouseleave="changeMask">
             <a href="">智慧屏</a>
             <div class="nav-hover">笔记本</div>
           </li>
-          <li>
+          <li @mouseenter="changeMask" @mouseleave="changeMask">
             <a href="">更多产品</a>
             <div class="nav-hover">笔记本</div>
           </li>
@@ -87,6 +87,11 @@ export default {
   data() {
     return {};
   },
+  methods:{
+    changeMask(){
+      this.$bus.$emit('changeMask')
+    }
+  }
 };
 </script>
 
