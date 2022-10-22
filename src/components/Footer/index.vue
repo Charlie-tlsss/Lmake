@@ -147,7 +147,7 @@ export default {
     background-color: #000;
     margin: 0 auto;
     max-width: 1400px;
-    padding: 30px 20px 40px;
+    padding: 10px 20px 40px;
     .footer-box-one {
       font-size: 14px;
       color: #ffffff66;

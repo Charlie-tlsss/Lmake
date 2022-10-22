@@ -1,15 +1,17 @@
-import Home from '@/page/Home';
 export default [
     {
-        path:'/home',
-        component:Home
+        path: '/home',
+        component: () => import('@/page/Home'),
+        meta: {
+            isShowFooter: true
+        }
     },
     {
-        path:'/search',
-        component:() => import('@/page/Search')
+        path: '/search',
+        component: () => import('@/page/Search')
     },
     {
-        path:'/',
-        redirect:'/home'
+        path: '/',
+        redirect: '/home'
     }
 ]

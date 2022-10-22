@@ -1,11 +1,11 @@
 <template>
   <div>
-    <div class="mask" :class="{doMask :isShowMask}"></div>
+    <div class="mask" :class="{ doMask: isShowMask }"></div>
     <One></One>
     <!-- 首页list区 -->
     <el-row style="margin: 0; padding: 0" :gutter="24">
       <!-- 首页list区 -->
-      <el-col :sx="24" :lg="12" v-for="item in 6" :key="item">
+      <el-col :xs="24" :lg="12" v-for="item in 6" :key="item">
         <div class="product-List">
           <div class="product-list-content">
             <div class="product-list-content-top">
@@ -29,17 +29,47 @@
           </div>
         </div>
       </el-col>
-      <!-- 首页宣传曲区 -->
-      <!-- <div class="more-container">
-        <div class="more-warp">
-          <img src="./images/m1.jpg" alt="" />
-          <div class="home-propaganda-title"></div>
-          <div class="home-propaganda-desc"></div>
-          <div class="home-propaganda-more"></div>
-          <el-col :sx="24" :lg="12"> </el-col>
-        </div>
-      </div> -->
     </el-row>
+    <!-- 首页宣传区 -->
+    <div class="more-container">
+      <div class="more-row">
+        <el-row>
+          <el-col :span="24">
+            <div class="more-item">
+              <img src="./images/m1.jpg" alt="" />
+              <div class="more-item-text">
+                <div class="mit-text">LMake Talents</div>
+                <div class="mit-title">2022全球设计大赛</div>
+                <div class="mit-link">了解更多<i class="iconfont icon-xiangyoujiantou"></i></div>
+                
+              </div>
+            </div>
+          </el-col>
+          <el-col :xs="24" :lg="12">
+            <div class="more-item cb">
+               <div class="moreMask"></div>
+              <img src="./images/m2.jpg" alt="" />
+              <div class="more-item-text">
+                <div class="mit-text">Lmake MAGIC MOMENTSAWARDS 2022</div>
+                <div class="mit-title">影像计划</div>
+                <div class="mit-link">了解更多<i class="iconfont icon-xiangyoujiantou"></i></div>
+              </div>
+            </div>
+          </el-col>
+          <el-col :xs="24" :lg="12">
+            <div class="more-item cb">
+              <div class="moreMask"></div>
+              <img src="./images/m3.jpg" alt="" />
+              <div class="more-item-text">
+                <div class="mit-text">以科技丰富文化未来遗产</div>
+                <div class="mit-title">通往未来的门户</div>
+                <div class="mit-link">了解更多<i class="iconfont icon-xiangyoujiantou"></i></div>
+              </div>
+            </div>
+          </el-col>
+        </el-row>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -47,35 +77,35 @@
 import One from "./One";
 export default {
   name: "Home",
-  data(){
+  data() {
     return {
-      isShowMask:false
-    }
+      isShowMask: false,
+    };
   },
   components: {
     One,
   },
-  mounted(){
-    this.$bus.$on('changeMask',() => {
-      this.isShowMask = !this.isShowMask
-      console.log(this.isShowMask)
-    })
-  }
+  mounted() {
+    this.$bus.$on("changeMask", () => {
+      this.isShowMask = !this.isShowMask;
+      console.log(this.isShowMask);
+    });
+  },
 };
 </script >
 
 <style lang="less" scoped>
-.mask{
+.mask {
   z-index: 1;
   width: 100%;
   height: 0px;
   position: absolute;
   background-color: #000000;
   opacity: 0;
-  transition:opacity .6s ;
+  transition: opacity 0.6s;
 }
-.doMask{
-  opacity: .4;
+.doMask {
+  opacity: 0.4;
   height: 4377px;
 }
 .product-List {
@@ -140,12 +170,68 @@ export default {
   }
 }
 .more-container {
+  .el-row--flex {
+    flex-wrap: warp !important;
+  }
   width: 100%;
   background-color: #000;
   overflow: hidden;
-  .more-warp {
-    width: 1400px;
-    margin: 0 auto;
+  padding: 30px;
+  .more-row {
+    max-width: 1400px;
+    margin: 80px auto;
   }
+  .more-item {
+    position: relative;
+    margin-bottom: 20px;
+    width: 100%;
+    height: 500px;
+    padding: 10px;
+    overflow: hidden;
+    .moreMask{
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: inline-block;
+        content: " ";
+        width: 100%;
+        height: 500px;
+        background-color: #000;
+        opacity: 0;
+        transition: all .6s;
+      }
+    img {
+      width: 100%;
+      height: 500px;
+    }
+    .more-item-text {
+      top: 390px;
+      left: 50px;
+      position: absolute;
+      z-index: 10;
+      transition: all .6s;
+      .mit-text{
+        font-size: 22px;
+        margin-bottom: 20px;
+      }
+      .mit-title{
+        font-size: 40px;
+        margin-bottom: 25px;
+      }
+      .mit-link{
+        font-size: 18px;
+        cursor: pointer
+      }
+    }
+  };
+  .cb{
+    color:#fff;
+  }
+}
+.more-item:hover .more-item-text{
+  top:330px;
+}
+.more-item:hover .moreMask{
+  opacity: .4;
 }
 </style>

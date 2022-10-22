@@ -72,7 +72,7 @@
         </ul>
       </div>
       <div class="user-Info">
-        <a href=""><i class="search iconfont icon-sousuo"></i></a>
+        <router-link to="/search"><i class="search iconfont icon-sousuo"></i></router-link>
         <a href=""><i class="center iconfont icon-wo"></i></a>
         <a href=""><div class="Lmake-shop">梁造商城</div></a>
       </div>
