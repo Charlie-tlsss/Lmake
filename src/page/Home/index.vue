@@ -1,5 +1,6 @@
 <template>
   <div>
+    <Nav />
     <div class="mask" :class="{ doMask: isShowMask }"></div>
     <One></One>
     <!-- 首页list区 -->
@@ -70,11 +71,14 @@
         </el-row>
       </div>
     </div>
+    <Footer />
   </div>
 </template>
 
 <script>
+import Footer from "./Footer";
 import One from "./One";
+import Nav from "./Nav";
 export default {
   name: "Home",
   data() {
@@ -84,6 +88,8 @@ export default {
   },
   components: {
     One,
+    Footer,
+    Nav,
   },
   mounted() {
     this.$bus.$on("changeMask", () => {

@@ -2,14 +2,16 @@ export default [
     {
         path: '/home',
         component: () => import('@/page/Home'),
-        meta: {
-            isShowFooter: true
-        }
     },
     {
         path: '/search',
-        component: () => import('@/page/Search')
+        component: () => import('@/page/Search'),
     },
+    {
+        path:'/shop',
+        component:() => import('@/page/Shop'),
+    },
+    //重定向
     {
         path: '/',
         redirect: '/home'

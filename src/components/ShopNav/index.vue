@@ -1,0 +1,143 @@
+<template>
+  <div>
+    <div class="short-cut">
+      <div class="s-warp">
+        <div class="s-sub">
+          <ul>
+            <li>关于梁造</li>
+            <li>新闻</li>
+            <li>梁造官网</li>
+            <li>会员</li>
+            <li>企业购</li>
+          </ul>
+        </div>
+        <div class="s-main">
+          <ul>
+            <li>
+              <div v-if="isLogin">
+                <a href="">登录</a> |
+                <a href="">注册</a>
+              </div>
+              <div v-else>
+                <el-dropdown>
+                  <span class="el-dropdown-link">
+                    Charlie<i class="el-icon-arrow-down el-icon--right"></i>
+                  </span>
+                  <el-dropdown-menu slot="dropdown">
+                    <el-dropdown-item>我的商城</el-dropdown-item>
+                    <el-dropdown-item>退出登录</el-dropdown-item>
+                  </el-dropdown-menu>
+                </el-dropdown>
+              </div>
+            </li>
+            <li>我的订单</li>
+            <li>购物车(0)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="header">
+      <div class="header-warp">
+        <div class="header-logo">
+          <img src="@/assets/logo.png" />
+        </div>
+        <div class="header-list">
+          <ul>
+            <li>手机</li>
+            <li>笔记本</li>
+            <li>平板</li>
+            <li>穿戴</li>
+            <li>智慧屏</li>
+          </ul>
+        </div>
+        <div class="header-search">
+          <i class="iconfont icon-sousuo"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: "ShopNav",
+  data() {
+    return {
+      isLogin: true,
+    };
+  },
+};
+</script>
+
+<style lang="less" scoped>
+.short-cut {
+  width: 100%;
+  height: 36px;
+  background-color: #000;
+  .s-warp {
+    width: 1200px;
+    height: 36px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    li:last-child {
+      margin: 0;
+    }
+    ul {
+      opacity: 0.8;
+      a {
+        color: #fff;
+        opacity: 0.8;
+      }
+    }
+    li {
+      margin-right: 30px;
+      float: left;
+      color: #fff;
+      opacity: 0.8;
+      cursor: pointer;
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+}
+.header {
+  width: 100%;
+  .header-warp {
+    width: 1200px;
+    height: 65px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .header-logo {
+      img {
+        width: 105px;
+        cursor: pointer;
+      }
+    }
+    .header-list{
+      ul{
+        display: flex;
+        margin-right: 78px;
+        li{
+          width: 100px;
+          text-align: center;
+          cursor: pointer;
+          opacity: 0.8;
+        }
+      }
+    }
+    .header-search {
+      i {
+        font-size: 28px;
+        cursor: pointer;
+      }
+    }
+  }
+}
+</style>>
+

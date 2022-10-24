@@ -1,12 +1,13 @@
 <template>
   <div>
+
     <div class="pc-header">
       <a class="logo-home" href="">
-        <img src="./images/logo.png" />
+        <img src="@/assets/logo.png" />
       </a>
       <div class="nav-lists">
         <ul>
-          <li  @mouseenter="changeMask" @mouseleave="changeMask">
+          <li @mouseenter="changeMask" @mouseleave="changeMask">
             <a href="">手机</a>
             <div class="nav-hover">
               <div class="nav-hover-content">
@@ -30,7 +31,7 @@
             </div>
             <div class="shade"></div>
           </li>
-          <li  @mouseenter="changeMask" @mouseleave="changeMask">
+          <li @mouseenter="changeMask" @mouseleave="changeMask">
             <a href=""> 笔记本 </a>
             <div class="nav-hover">
               <div class="nav-hover-content">
@@ -53,11 +54,11 @@
               </div>
             </div>
           </li>
-          <li  @mouseenter="changeMask" @mouseleave="changeMask">
+          <li @mouseenter="changeMask" @mouseleave="changeMask">
             <a href="">平板</a>
             <div class="nav-hover">笔记本</div>
           </li>
-          <li  @mouseenter="changeMask" @mouseleave="changeMask">
+          <li @mouseenter="changeMask" @mouseleave="changeMask">
             <a href="">穿戴</a>
             <div class="nav-hover">笔记本</div>
           </li>
@@ -72,12 +73,14 @@
         </ul>
       </div>
       <div class="user-Info">
-        <router-link to="/search"><i class="search iconfont icon-sousuo"></i></router-link>
+        <router-link to="/search"
+          ><i class="search iconfont icon-sousuo"></i
+        ></router-link>
         <a href=""><i class="center iconfont icon-wo"></i></a>
-        <a href=""><div class="Lmake-shop">梁造商城</div></a>
+        <router-link to="/shop" class="Lmake-shop">梁造商城</router-link>
       </div>
     </div>
-    <div id="box1" style="height:65px;width:100%"></div>
+    <div id="box1" style="height: 65px; width: 100%"></div>
   </div>
 </template>
 
@@ -87,16 +90,16 @@ export default {
   data() {
     return {};
   },
-  methods:{
-    changeMask(){
-      this.$bus.$emit('changeMask')
-    }
-  }
+  methods: {
+    changeMask() {
+      this.$bus.$emit("changeMask");
+    },
+  },
 };
 </script>
 
 <style lang="less" scoped>
-.shade{
+.shade {
   position: relative;
   top: 0;
   left: 0;
@@ -108,7 +111,7 @@ export default {
   z-index: 999;
   border-bottom: 1px solid #ddd;
   background-color: #fff;
-  position:fixed;
+  position: fixed;
   left: 0;
   top: 0;
   display: flex;
@@ -146,8 +149,8 @@ export default {
       &:hover {
         border-bottom: 1px solid #000;
         .nav-hover {
-            height: 430px;
-          }
+          height: 430px;
+        }
       }
       a {
         display: inline-block;
@@ -155,7 +158,6 @@ export default {
         height: 100%;
         text-decoration: none;
         color: #000;
-        
       }
     }
   }
@@ -182,7 +184,7 @@ export default {
       text-align: center;
       line-height: 30px;
     }
-    a{
+    a {
       text-decoration: none;
     }
   }
@@ -219,7 +221,6 @@ export default {
         width: 106px;
         height: 106px;
       }
-      
     }
   }
 }

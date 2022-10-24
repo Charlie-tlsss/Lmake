@@ -10,9 +10,9 @@
         <p class="box-title">热门搜索</p>
         <ul>
           <li v-for="item in 3" :key="item">
-            <div class="hs-img">
+            <a href="" class="hs-img">
               <img src="./images/s1.png" alt="" />
-            </div>
+            </a>
             <div>荣耀畅玩40 Plus</div>
           </li>
         </ul>
@@ -96,10 +96,17 @@ export default {
           justify-content: center;
           align-items: center;
           background-color: #f5f5f5;
+          &:hover img{
+              transform: scale(1.15);
+            };
+          &:hover +div{
+              color:#256fff;
+            }
           img {
             display: inline-block;
             width: 111px;
             line-height: 186px;
+            transition: all .5s;
           }
         }
 
