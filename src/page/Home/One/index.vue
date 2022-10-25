@@ -56,7 +56,7 @@ export default {
     });
     this.scrollReveal.reveal(".reveal-img", {
       // 动画的时长
-      duration: 1000,
+      duration: 2000,
       // 延迟时间
       delay: 150,
       // 动画开始的位置，'bottom', 'left', 'top', 'right'

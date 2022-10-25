@@ -106,6 +106,7 @@ export default {
 }
 .header {
   width: 100%;
+   box-shadow:0 1px 20px rgba(137, 137, 137, 0.375);
   .header-warp {
     width: 1200px;
     height: 65px;
