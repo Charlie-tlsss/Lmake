@@ -3,8 +3,8 @@
     <router-link to="home" class="close"><i class="iconfont icon-guanbi"></i></router-link>
     <div class="search-content">
       <div class="search-input">
-        <input type="text" placeholder="在此输入您要搜索的关键字" />
-        <i class="iconfont icon-sousuo"></i>
+        <input @keyup.enter="goSearchList" type="text" placeholder="在此输入您要搜索的关键字" />
+        <i @click="goSearchList" class="iconfont icon-sousuo"></i>
       </div>
       <div class="search-hotSearch">
         <p class="box-title">热门搜索</p>
@@ -35,6 +35,14 @@
 <script>
 export default {
   name: "Search",
+  methods:{
+    //跳转到搜索详情页的编程式路由导航
+    goSearchList(){
+      this.$router.push({
+        path:'/searchlist'
+      })
+    }
+  }
 };
 </script>
 

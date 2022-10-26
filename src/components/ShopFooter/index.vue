@@ -98,7 +98,6 @@ export default {
     }
     .footer-service {
       width: 100%;
-      height: 285px;
       margin: 20px 0;
       display: flex;
       justify-content: space-between;

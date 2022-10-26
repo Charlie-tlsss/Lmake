@@ -11,6 +11,10 @@ export default [
         path:'/shop',
         component:() => import('@/page/Shop'),
     },
+    {
+        path:'/searchlist',
+        component:() => import('@/page/SearchList'),
+    },
     //重定向
     {
         path: '/',
