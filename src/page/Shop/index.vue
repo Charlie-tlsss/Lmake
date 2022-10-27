@@ -42,7 +42,6 @@
         <!-- 限时购 -->
         <h2 class="title">限时购</h2>
         <div class="gird">
-          <!-- <ul :style="'left' + a + 'px'"> -->
           <ul :style="'left:' + OffsteValue + 'px'">
             <li v-for="item in 10" :key="item">
               <img
@@ -63,6 +62,12 @@
             <i class="iconfont icon-xiangyoujiantou"></i>
           </div>
         </div>
+        <!-- 热销单品 -->
+
+        <!-- 精品推荐 -->
+
+        <!-- 分类产品 -->
+        
       </div>
     </div>
   </div>
