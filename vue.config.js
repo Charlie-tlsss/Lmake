@@ -7,6 +7,11 @@ module.exports = defineConfig({
     port: 8080,
     https: false,
     hot: false,
-    proxy: null,
+    //代理跨域
+    proxy: {
+      '/api': {
+        target: 'http://localhost:8888/',
+      }
+    },
   },
 })
