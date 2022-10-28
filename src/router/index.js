@@ -11,6 +11,14 @@ export default [
         path:'/shop',
         component:() => import('@/page/Shop'),
     },
+    {
+        path:'/searchlist',
+        component:() => import('@/page/SearchList'),
+    },
+    {
+        path:'/productdetail/:id?',
+        component:() => import('@/page/ProductDetail'),
+    },
     //重定向
     {
         path: '/',

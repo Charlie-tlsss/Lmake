@@ -38,9 +38,9 @@
     </div>
     <div class="header">
       <div class="header-warp">
-        <div class="header-logo">
+        <router-link to="/" class="header-logo">
           <img src="@/assets/logo.png" />
-        </div>
+        </router-link>
         <div class="header-list">
           <ul>
             <li>手机</li>
@@ -51,7 +51,7 @@
           </ul>
         </div>
         <div class="header-search">
-          <i class="iconfont icon-sousuo"></i>
+          <router-link to="/search" class="iconfont icon-sousuo"></router-link>
         </div>
       </div>
     </div>

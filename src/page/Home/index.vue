@@ -41,19 +41,22 @@
               <div class="more-item-text">
                 <div class="mit-text">LMake Talents</div>
                 <div class="mit-title">2022全球设计大赛</div>
-                <div class="mit-link">了解更多<i class="iconfont icon-xiangyoujiantou"></i></div>
-                
+                <div class="mit-link">
+                  了解更多<i class="iconfont icon-xiangyoujiantou"></i>
+                </div>
               </div>
             </div>
           </el-col>
           <el-col :xs="24" :lg="12">
             <div class="more-item cb">
-               <div class="moreMask"></div>
+              <div class="moreMask"></div>
               <img src="./images/m2.jpg" alt="" />
               <div class="more-item-text">
                 <div class="mit-text">Lmake MAGIC MOMENTSAWARDS 2022</div>
                 <div class="mit-title">影像计划</div>
-                <div class="mit-link">了解更多<i class="iconfont icon-xiangyoujiantou"></i></div>
+                <div class="mit-link">
+                  了解更多<i class="iconfont icon-xiangyoujiantou"></i>
+                </div>
               </div>
             </div>
           </el-col>
@@ -64,7 +67,9 @@
               <div class="more-item-text">
                 <div class="mit-text">以科技丰富文化未来遗产</div>
                 <div class="mit-title">通往未来的门户</div>
-                <div class="mit-link">了解更多<i class="iconfont icon-xiangyoujiantou"></i></div>
+                <div class="mit-link">
+                  了解更多<i class="iconfont icon-xiangyoujiantou"></i>
+                </div>
               </div>
             </div>
           </el-col>
@@ -76,6 +81,7 @@
 </template>
 
 <script>
+import requests from './index';
 import Footer from "./Footer";
 import One from "./One";
 import Nav from "./Nav";
@@ -194,18 +200,18 @@ export default {
     height: 500px;
     padding: 10px;
     overflow: hidden;
-    .moreMask{
-        position: absolute;
-        top: 0;
-        left: 0;
-        display: inline-block;
-        content: " ";
-        width: 100%;
-        height: 500px;
-        background-color: #000;
-        opacity: 0;
-        transition: all .6s;
-      }
+    .moreMask {
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: inline-block;
+      content: " ";
+      width: 100%;
+      height: 500px;
+      background-color: #000;
+      opacity: 0;
+      transition: all 0.6s;
+    }
     img {
       width: 100%;
       height: 500px;
@@ -215,29 +221,29 @@ export default {
       left: 50px;
       position: absolute;
       z-index: 10;
-      transition: all .6s;
-      .mit-text{
+      transition: all 0.6s;
+      .mit-text {
         font-size: 22px;
         margin-bottom: 20px;
       }
-      .mit-title{
+      .mit-title {
         font-size: 40px;
         margin-bottom: 25px;
       }
-      .mit-link{
+      .mit-link {
         font-size: 18px;
-        cursor: pointer
+        cursor: pointer;
       }
     }
-  };
-  .cb{
-    color:#fff;
+  }
+  .cb {
+    color: #fff;
   }
 }
-.more-item:hover .more-item-text{
-  top:330px;
+.more-item:hover .more-item-text {
+  top: 330px;
 }
-.more-item:hover .moreMask{
-  opacity: .4;
+.more-item:hover .moreMask {
+  opacity: 0.4;
 }
 </style>
