@@ -81,7 +81,7 @@
 </template>
 
 <script>
-import requests from './index';
+import { reqGetHomeBigItem } from "@/api/requests";
 import Footer from "./Footer";
 import One from "./One";
 import Nav from "./Nav";
@@ -102,7 +102,9 @@ export default {
       this.isShowMask = !this.isShowMask;
       console.log(this.isShowMask);
     });
+    this.$store.dispatch('getHomeBigItem')
   },
+  
 };
 </script >
 
