@@ -1,18 +1,18 @@
 <template>
   <div>
-    <Nav />
+    <Nav :homeHeaderList=homeHeaderList />
     <div class="mask" :class="{ doMask: isShowMask }"></div>
     <One></One>
     <!-- 首页list区 -->
     <el-row style="margin: 0; padding: 0" :gutter="24">
       <!-- 首页list区 -->
-      <el-col :xs="24" :lg="12" v-for="item in 6" :key="item">
+      <el-col :xs="24" :lg="12" v-for="listItem in homeList" :key="listItem.id">
         <div class="product-List">
           <div class="product-list-content">
             <div class="product-list-content-top">
-              <div class="plc-name">荣耀MagicBook V 14</div>
-              <div class="plc-title">智慧感知 时刻从容</div>
-              <div class="plc-text">预订优惠200元</div>
+              <div class="plc-name">{{listItem.skuName}}</div>
+              <div class="plc-title">{{listItem.skuDesc}}</div>
+              <div class="plc-text">{{listItem.title}}</div>
               <div class="plc-btn">
                 <div class="plc-btn-buy">
                   <button>购买</button>
@@ -25,7 +25,7 @@
               </div>
             </div>
             <div class="product-list-content-img">
-              <img src="./images/mac.png" />
+              <img :src=listItem.skuImg />
             </div>
           </div>
         </div>
@@ -81,10 +81,10 @@
 </template>
 
 <script>
-import { reqGetHomeBigItem } from "@/api/requests";
 import Footer from "./Footer";
 import One from "./One";
 import Nav from "./Nav";
+import { mapState } from 'vuex';
 export default {
   name: "Home",
   data() {
@@ -103,7 +103,15 @@ export default {
       console.log(this.isShowMask);
     });
     this.$store.dispatch('getHomeBigItem')
+    this.$store.dispatch('getHomeList')
+    this.$store.dispatch('getHomeHeaderList')
   },
+  computed:{
+    ...mapState({
+      homeList:(state) => state.home.homeList,
+      homeHeaderList:(state) => state.home.homeHeaderList
+    })
+  }
   
 };
 </script >
@@ -173,8 +181,10 @@ export default {
     .product-list-content-img {
       margin-top: 30px;
       text-align: center;
+      overflow: hidden;
       img {
-        width: 540px;
+        max-width: 540px;
+        max-height: 400px;
         transition: all 0.5s;
         &:hover {
           transform: scale(1.05);

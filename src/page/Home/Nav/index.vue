@@ -1,74 +1,31 @@
 <template>
   <div>
-
     <div class="pc-header">
       <a class="logo-home" href="">
         <img src="@/assets/logo.png" />
       </a>
       <div class="nav-lists">
         <ul>
-          <li @mouseenter="changeMask" @mouseleave="changeMask">
-            <a href="">手机</a>
+          <li
+            v-for="headerList in homeHeaderList"
+            :key="headerList.id"
+            @mouseenter="changeMask"
+            @mouseleave="changeMask"
+          >
+            <a href="">{{ headerList.categoty }}</a>
             <div class="nav-hover">
               <div class="nav-hover-content">
-                <div class="item">
-                  <img src="./images/goods.png" alt="" />
-                  <div class="goods-name">荣耀70 pro+</div>
-                </div>
-                <div class="item">
-                  <img src="./images/goods.png" alt="" />
-                  <div class="goods-name">荣耀70 pro+</div>
-                </div>
-                <div class="item">
-                  <img src="./images/goods.png" alt="" />
-                  <div class="goods-name">荣耀70 pro+</div>
-                </div>
-                <div class="item">
-                  <img src="./images/goods.png" alt="" />
-                  <div class="goods-name">荣耀70 pro+</div>
+                <div
+                  class="item"
+                  v-for="headerListItem in headerList.list"
+                  :key="headerListItem.id"
+                >
+                  <img :src=headerListItem.skuImg alt="" />
+                  <div class="goods-name">{{headerListItem.skuName}}</div>
                 </div>
               </div>
             </div>
             <div class="shade"></div>
-          </li>
-          <li @mouseenter="changeMask" @mouseleave="changeMask">
-            <a href=""> 笔记本 </a>
-            <div class="nav-hover">
-              <div class="nav-hover-content">
-                <div class="item">
-                  <img src="./images/goods.png" alt="" />
-                  <div class="goods-name">荣耀70 pro+</div>
-                </div>
-                <div class="item">
-                  <img src="./images/goods.png" alt="" />
-                  <div class="goods-name">荣耀70 pro+</div>
-                </div>
-                <div class="item">
-                  <img src="./images/goods.png" alt="" />
-                  <div class="goods-name">荣耀70 pro+</div>
-                </div>
-                <div class="item">
-                  <img src="./images/goods.png" alt="" />
-                  <div class="goods-name">荣耀70 pro+</div>
-                </div>
-              </div>
-            </div>
-          </li>
-          <li @mouseenter="changeMask" @mouseleave="changeMask">
-            <a href="">平板</a>
-            <div class="nav-hover">笔记本</div>
-          </li>
-          <li @mouseenter="changeMask" @mouseleave="changeMask">
-            <a href="">穿戴</a>
-            <div class="nav-hover">笔记本</div>
-          </li>
-          <li @mouseenter="changeMask" @mouseleave="changeMask">
-            <a href="">智慧屏</a>
-            <div class="nav-hover">笔记本</div>
-          </li>
-          <li @mouseenter="changeMask" @mouseleave="changeMask">
-            <a href="">更多产品</a>
-            <div class="nav-hover">笔记本</div>
           </li>
         </ul>
       </div>
@@ -87,6 +44,7 @@
 <script>
 export default {
   name: "Nav",
+  props: ["homeHeaderList"],
   data() {
     return {};
   },
