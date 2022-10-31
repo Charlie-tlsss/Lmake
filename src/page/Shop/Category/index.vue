@@ -1,31 +1,39 @@
 <template>
   <div>
     <ul class="shop-category">
-      <li v-for="item in 8" :key="item">
+      <li v-for="categoryList in shopList" :key="categoryList.id">
         <a href="category-name">
-          手机
+          {{ categoryList.category }}
           <i class="iconfont icon-xiangyoujiantou"></i>
         </a>
         <div class="category-box">
           <div class="category-box-top">
             <div class="category-box-top-title">
-              <div class="cbtt-l">手机</div>
+              <div class="cbtt-l">{{ categoryList.category }}</div>
               <div class="cbtt-r">
                 全部手机<i class="iconfont icon-xiangyoujiantou"></i>
               </div>
             </div>
             <ul>
-              <li v-for="item in 8" :key="item">
-                <span>vivo X</span>
-                <img src="./images/1.webp" alt="" />
+              <li
+                v-for="(listItem, index) in categoryList.list"
+                :key="index"
+                v-show="index < 8"
+              >
+                <span class="skuname">{{ listItem.skuName }}</span>
+                <img :src="listItem.skuImg" alt="" />
               </li>
             </ul>
           </div>
           <div class="category-box-bottom">
             <ul>
-              <li v-for="item in 9" :key="item">
-                <img src="./images/1.webp" alt="" />
-                <span>vivo X</span>
+              <li
+                v-for="(listItem, index) in categoryList.list"
+                :key="index"
+                v-show="index > 8"
+              >
+                <img :src="listItem.skuImg" alt="" />
+                <span>{{ listItem.skuName }}</span>
               </li>
             </ul>
           </div>
@@ -38,6 +46,7 @@
 <script>
 export default {
   name: "Category",
+  props: ["shopList"],
 };
 </script>
 
@@ -93,8 +102,15 @@ export default {
           border-radius: 5px;
           margin-right: 10px;
           margin-bottom: 12px;
-          padding: 0 35px;
+          padding-left: 10px;
+          padding-right: 35px;
           line-height: 50px;
+          overflow: hidden;
+          .skuname {
+            font-size: 12px;
+            display: flex;
+            overflow: hidden;
+          }
           img {
             position: absolute;
             width: 40px;
@@ -119,10 +135,11 @@ export default {
             height: 36px;
             margin-bottom: 20px;
             line-height: 36px;
-            img{
-                width: 36px;
-                vertical-align: middle;
-                margin-right: 10px;
+            overflow: hidden;
+            img {
+              width: 36px;
+              vertical-align: middle;
+              margin-right: 10px;
             }
           }
         }

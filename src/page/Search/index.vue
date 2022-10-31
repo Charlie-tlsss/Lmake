@@ -1,19 +1,25 @@
 <template>
   <div class="search-box">
-    <router-link to="home" class="close"><i class="iconfont icon-guanbi"></i></router-link>
+    <router-link to="home" class="close"
+      ><i class="iconfont icon-guanbi"></i
+    ></router-link>
     <div class="search-content">
       <div class="search-input">
-        <input @keyup.enter="goSearchList" type="text" placeholder="在此输入您要搜索的关键字" />
+        <input
+          @keyup.enter="goSearchList"
+          type="text"
+          placeholder="在此输入您要搜索的关键字"
+        />
         <i @click="goSearchList" class="iconfont icon-sousuo"></i>
       </div>
       <div class="search-hotSearch">
         <p class="box-title">热门搜索</p>
         <ul>
-          <li v-for="item in 3" :key="item">
+          <li v-for="hotSearch in hotSearchList" :key="hotSearch.id">
             <a href="" class="hs-img">
-              <img src="./images/s1.png" alt="" />
+              <img :src="hotSearch.skuImg" alt="" />
             </a>
-            <div>荣耀畅玩40 Plus</div>
+            <div>{{hotSearch.skuName}}</div>
           </li>
         </ul>
       </div>
@@ -21,11 +27,11 @@
         <p class="box-title">快速查看</p>
         <ul>
           <li>手机</li>
-          <li>笔记本</li>
+          <li>电脑</li>
           <li>平板</li>
           <li>穿戴</li>
           <li>智慧屏</li>
-          <li>路由</li>
+          <li>配件</li>
         </ul>
       </div>
     </div>
@@ -35,14 +41,26 @@
 <script>
 export default {
   name: "Search",
-  methods:{
-    //跳转到搜索详情页的编程式路由导航
-    goSearchList(){
-      this.$router.push({
-        path:'/searchlist'
-      })
+  data(){
+    return {
+      hotSearchList:[]
     }
-  }
+  },
+  mounted() {
+    this.getHotSrarch();
+  },
+  methods: {
+    //跳转到搜索详情页的编程式路由导航
+    goSearchList() {
+      this.$router.push({
+        path: "/searchlist",
+      });
+    },
+    async getHotSrarch() {
+      let res = await this.$API.reqGetHotSearch();
+      this.hotSearchList = res.data.data
+    },
+  },
 };
 </script>
 
@@ -104,17 +122,17 @@ export default {
           justify-content: center;
           align-items: center;
           background-color: #f5f5f5;
-          &:hover img{
-              transform: scale(1.15);
-            };
-          &:hover +div{
-              color:#256fff;
-            }
+          &:hover img {
+            transform: scale(1.15);
+          }
+          &:hover + div {
+            color: #256fff;
+          }
           img {
             display: inline-block;
             width: 111px;
             line-height: 186px;
-            transition: all .5s;
+            transition: all 0.5s;
           }
         }
 
@@ -128,22 +146,22 @@ export default {
       margin-top: 46px;
       width: 100%;
       height: 104px;
-      ul{
+      ul {
         display: flex;
         flex-wrap: wrap;
       }
-      li{
+      li {
         width: 198px;
         margin-bottom: 10px;
         margin-right: 12px;
       }
     }
   }
-  .close{
+  .close {
     position: absolute;
     right: 60px;
     top: 20px;
-    i{
+    i {
       font-size: 20px;
       cursor: pointer;
     }
