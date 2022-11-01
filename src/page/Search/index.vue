@@ -9,6 +9,7 @@
           @keyup.enter="goSearchList"
           type="text"
           placeholder="在此输入您要搜索的关键字"
+          v-model="keyWord"
         />
         <i @click="goSearchList" class="iconfont icon-sousuo"></i>
       </div>
@@ -43,7 +44,9 @@ export default {
   name: "Search",
   data(){
     return {
-      hotSearchList:[]
+      hotSearchList:[],
+      //搜索关键字
+      keyWord:''
     }
   },
   mounted() {
@@ -54,6 +57,9 @@ export default {
     goSearchList() {
       this.$router.push({
         path: "/searchlist",
+        query:{
+         keyWord : this.keyWord
+        }
       });
     },
     async getHotSrarch() {

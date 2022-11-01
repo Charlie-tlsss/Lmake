@@ -14,4 +14,13 @@ export const reqGetShopList = () => requests({ url: '/shop/shopList', method: 'g
 export const reqGetShopTimeLimit = () => requests({ url: '/shop/timeLimit', method: 'get' })
 //获取首页推荐接口
 export const reqGetShopRecommend = () => requests({ url: '/shop/recommend', method: 'get' })
+//获取搜索结果接口
+// export const reqGetSearchList = (keyWord) => requests({
+//     url: 'search/SearchList',
+//     method: 'get',
+//     params: {
+//         keyWord
+//     },
+// })
+export const reqGetSearchList = (searchParams) => requests({url: 'search/SearchList', method: 'get',params:searchParams})
 
