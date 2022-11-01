@@ -1,25 +1,24 @@
 <template>
   <div>
-    <div class="goods-box" v-for="item in 6" :key="item">
-      <div class="goods-box-title">手机 <span>查看更多></span></div>
+    <div class="goods-box" v-for="list in shopList.slice(0,6)" :key="list.id">
+      <div class="goods-box-title">{{list.category}}<span>查看更多></span></div>
       <div class="goods-box-img">
         <img
-          src="https://hshop.honorfile.com/pimages/frontLocation/content/02133366426616333120.jpg"
+          :src="list.categoryImg"
           alt=""
         />
       </div>
       <div class="goods-box-list">
         <ul>
-          <li v-for="item in 10" :key="item">
+          <li v-for="listItem in list.list.slice(0,10)" :key="listItem.skuId">
             <div class="goods-box-list-img">
               <img
-                src="https://hshop.honorfile.com/pimages//product/6973316857085/428_428_A5FF6B8B70EBD73C5EF29E5BD982F1F46DD6E69BB43B0AF9mp.png"
-                alt=""
+                :src="listItem.skuImg"
               />
             </div>
-            <div class="goods-box-list-title">荣耀Magic3 Pro</div>
-            <div class="goods-box-list-desc">享24期免息</div>
-            <div class="goods-box-list-price">¥5999</div>
+            <div class="goods-box-list-title">{{listItem.skuName}}</div>
+            <div class="goods-box-list-desc">{{listItem.skuDesc}}</div>
+            <div class="goods-box-list-price">¥{{listItem.skuPrice}}</div>
           </li>
         </ul>
       </div>
@@ -30,6 +29,7 @@
 <script>
 export default {
   name: "GoodsBox",
+  props:['shopList']
 };
 </script>
 
@@ -54,7 +54,8 @@ export default {
     }
   }
   .goods-box-img img {
-    max-width: 1200px;
+    width: 1200px;
+    height: 343px;
   }
   .goods-box-list {
     ul {

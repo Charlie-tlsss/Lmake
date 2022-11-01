@@ -110,7 +110,7 @@ export default {
     ...mapState({
       homeList:(state) => state.home.homeList,
       homeHeaderList:(state) => state.home.homeHeaderList
-    })
+    }),
   }
   
 };

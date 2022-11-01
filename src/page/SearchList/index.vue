@@ -18,16 +18,16 @@
       <!-- 搜索列表 -->
       <div class="product-list">
         <ul>
-          <li v-for="item in 20" :key="item" @click="goDetail()">
+          <li v-for="(searchListItem,index) in searchList" :key="index" @click="goDetail()">
             <div class="product-list-img">
               <img
-                src="https://hshop.honorfile.com/pimages//product/6936520803637/428_428_0C026E0F21285DFC33277D2FA54D92914459A0145DBAEA1Amp.png"
+                :src=searchListItem.skuImg
                 alt=""
               />
             </div>
-            <div class="product-list-title">荣耀X40</div>
-            <div class="product-list-desc">50w极速闪充</div>
-            <div class="product-list-price">¥ 2399 起</div>
+            <div class="product-list-title">{{searchListItem.skuName}}</div>
+            <div class="product-list-desc">{{searchListItem.skuDesc}}</div>
+            <div class="product-list-price">¥ {{searchListItem.skuPrice}} 起</div>
           </li>
         </ul>
       </div>
@@ -36,7 +36,8 @@
         class="pagination"
         background
         layout="prev, pager, next"
-        :total="100"
+        :size="10"
+        :total="200"
       >
       </el-pagination>
     </div>
@@ -46,11 +47,33 @@
 <script>
 export default {
   name: "SearchList",
-  methods:{
-    goDetail(){
+  data() {
+    return {
+      searchParams:{
+        keyWord:this.$route.query.keyWord,
+      },
+      searchList :[],
+      
+    };
+  },
+  mounted(){
+    this.getSearchList(this.searchParams)
+    console.log(this.searchParams)
+  },
+  methods: {
+    goDetail() {
       this.$router.push({
-        path:'/productdetail'
-      })
+        path: "/productdetail",
+      });
+    },
+    async getSearchList(searchParams) {
+      let res = await this.$API.reqGetSearchList(searchParams);
+      this.searchList = res.data.data || []
+    },
+  },
+  computed:{
+    kewWord(){
+      return this.$route.query.keyWord
     }
   }
 };

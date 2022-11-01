@@ -8,6 +8,8 @@ import 'element-ui/lib/theme-chalk/display.css';
 import router from '@/router/router';
 //引入Vuex
 import store from './store/index';
+//引入api
+import * as API from '@/api/requests';
 
 
 Vue.use(ElementUI);
@@ -17,8 +19,10 @@ new Vue({
   router,
   store,
   render: h => h(App),
-  //全局事件总线
   beforeCreate(){
+    //全局事件总线
     Vue.prototype.$bus = this
+    //全局api
+    Vue.prototype.$API = API
   }
 }).$mount('#app')

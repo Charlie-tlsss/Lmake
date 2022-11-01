@@ -20,18 +20,32 @@
     <div class="shop-content">
       <div class="shop-warp">
         <!-- 二级联动 -->
-        <Category />
+        <Category :shopList="shopList" />
         <!-- newProduct -->
         <h2 class="title">新品热销</h2>
         <div class="new-product">
           <div class="new-product-bigimg">
             <img
               src="https://hshop.honorfile.com/pimages//pages/picImages/84986429666612468948.jpg"
-              alt=""
             />
           </div>
           <ul>
-            <li v-for="item in 4" :key="item">
+            <li>
+              <img
+                src="https://hshop.honorfile.com/pimages//pages/picImages/99392589206618529399.jpg"
+              />
+            </li>
+            <li>
+              <img
+                src="https://hshop.honorfile.com/pimages//pages/picImages/42887903026610978824.jpg"
+              />
+            </li>
+            <li>
+              <img
+                src="https://hshop.honorfile.com/pimages//pages/picImages/08761300276610316780.png"
+              />
+            </li>
+            <li>
               <img
                 src="https://hshop.honorfile.com/pimages//pages/picImages/05618892566619881650.png"
                 alt=""
@@ -43,14 +57,14 @@
         <h2 class="title">限时购</h2>
         <div class="gird">
           <ul :style="'left:' + OffsteValue + 'px'">
-            <li v-for="item in 10" :key="item">
+            <li v-for="(timeLimitItem,index) in timeLimit" :key="index">
               <img
                 class="gird-img"
-                src="https://hshop.honorfile.com/pimages/product/6936520804870/428_428_2ED41DE27B733824B45A4B96C07F60E669E62F163B09F454mp.png"
+                :src=timeLimitItem.skuImg
               />
-              <div class="gird-title">荣耀Earbuds 3 Pro {{ item }}</div>
-              <div class="gird-desc">到手价749元</div>
-              <p class="gird-price">¥849</p>
+              <div class="gird-title"> {{ timeLimitItem.skuName }}</div>
+              <div class="gird-desc">{{timeLimitItem.skuDesc}}</div>
+              <p class="gird-price">¥{{timeLimitItem.skuPrice}}</p>
             </li>
           </ul>
         </div>
@@ -72,14 +86,14 @@
             />
           </div>
           <ul class="hot-goods-list">
-            <li class="borders" v-for="item in 6" :key="item">
+            <li class="borders" v-for="(hotGoodsList,index) in hotGoods" :key="index">
               <img
                 class="hot-goods-img"
-                src="https://hshop.honorfile.com/pimages/product/6936520807086/428_428_FC0A0EDDABE502109371CA4743CBB3F118EB646C89B4F13Bmp.png"
+                :src=hotGoodsList.skuImg
               />
-              <div class="hot-goods-title">荣耀Magic4 至臻版</div>
-              <div class="hot-goods-desc">享受24期免息</div>
-              <p class="hot-goods-price">¥7849</p>
+              <div class="hot-goods-title">{{hotGoodsList.skuName}}</div>
+              <div class="hot-goods-desc">{{hotGoodsList.skuDesc}}</div>
+              <p class="hot-goods-price">¥{{hotGoodsList.skuPrice}}</p>
             </li>
           </ul>
         </div>
@@ -87,56 +101,89 @@
         <h2 class="title">精品推荐</h2>
         <div class="goods-recommend">
           <ul>
-            <li v-for="item in 3" :key="item">
+            <li v-for="recommend in recommendList" :key="recommend.id">
               <div class="goods-recommend-img">
                 <img
-                  src="https://hshop.honorfile.com/pimages/product/6936520809332/428_428_95B882BD0DA023DBA1BB71B0C9ED33ECD8748AE09EC01EE9mp.png"
+                  :src=recommend.skuImg
                   alt=""
                 />
               </div>
               <div class="goods-recommend-text-content">
-                <div class="goods-recommend-title">荣耀智慧屏X3i</div>
-                <div class="goods-recommend-desc">最高享6期免息</div>
-                <div class="goods-recommend-price">¥1599</div>
+                <div class="goods-recommend-title">{{recommend.skuName}}</div>
+                <div class="goods-recommend-desc">{{recommend.skuDesc}}</div>
+                <div class="goods-recommend-price">¥{{recommend.skuPrice}}</div>
                 <div class="goods-recommend-button">立即购买</div>
               </div>
             </li>
           </ul>
         </div>
         <!-- 商品展示 -->
-        <GoodsBox />
+        <GoodsBox :shopList="shopList" />
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { mapState } from "vuex";
 import Category from "./Category";
 import GoodsBox from "./GoodsBox";
 export default {
   name: "Shop",
   components: {
     Category,
-    GoodsBox
+    GoodsBox,
   },
   data() {
     return {
       // 抢购的列表偏移值
       OffsteValue: 0,
+      //限时购数据
+      timeLimit:[],
+      hotGoods:[],
+      recommendList:[]
     };
+  },
+  mounted() {
+    this.$store.dispatch("getShopList");
+    //获取限时购数据
+    this.getTimeLimit();
+    this.getRecommend();
+    
   },
   methods: {
     goLeft() {
       if (this.OffsteValue >= 0) return;
       this.OffsteValue += 305;
-      console.log(this.OffsteValue);
     },
     goRight() {
       if (this.OffsteValue <= -1830) return;
       this.OffsteValue -= 305;
-      console.log(2);
     },
+    //获取限时购数据方法
+    async getTimeLimit(){
+      let res = await this.$API.reqGetShopTimeLimit()
+      this.timeLimit = res.data.data
+    },
+    //获取推荐数据方法
+    async getRecommend(){
+      let res = await this.$API.reqGetShopRecommend()
+      this.recommendList = res.data.data
+    }
   },
+  computed: {
+    ...mapState({
+      shopList: (state) => state.shop.shopList,
+    }),
+    
+  },
+  watch:{
+    shopList:{
+      handler(newValue,OldValue){
+        this.hotGoods = this.shopList[0].list.slice(10,16)
+      }
+    }
+  }
 };
 </script>
 
