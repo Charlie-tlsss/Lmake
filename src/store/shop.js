@@ -11,8 +11,8 @@ export default {
     actions:{
        async getShopList({commit}){
         let res = await reqGetShopList()
-        if(res.data.code == 200){
-            commit('GETSHOPLIST',res.data.data)
+        if(res.code == 200){
+            commit('GETSHOPLIST',res.data)
         }
        }
     },

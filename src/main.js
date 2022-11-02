@@ -8,9 +8,15 @@ import 'element-ui/lib/theme-chalk/display.css';
 import router from '@/router/router';
 //引入Vuex
 import store from './store/index';
+//图片懒加载
+import VueLazyload from 'vue-lazyload'
+
+import Q from '@/assets/loading.gif';
+Vue.use(VueLazyload, {
+  loading: Q,
+})
 //引入api
 import * as API from '@/api/requests';
-
 
 Vue.use(ElementUI);
 Vue.config.productionTip = false

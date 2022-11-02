@@ -18,7 +18,7 @@
         <ul>
           <li v-for="hotSearch in hotSearchList" :key="hotSearch.id">
             <a href="" class="hs-img">
-              <img :src="hotSearch.skuImg" alt="" />
+              <img v-lazy="hotSearch.skuImg" alt="" />
             </a>
             <div>{{hotSearch.skuName}}</div>
           </li>
@@ -64,7 +64,7 @@ export default {
     },
     async getHotSrarch() {
       let res = await this.$API.reqGetHotSearch();
-      this.hotSearchList = res.data.data
+      this.hotSearchList = res.data
     },
   },
 };
