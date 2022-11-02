@@ -100,7 +100,6 @@ export default {
   mounted() {
     this.$bus.$on("changeMask", () => {
       this.isShowMask = !this.isShowMask;
-      console.log(this.isShowMask);
     });
     this.$store.dispatch('getHomeBigItem')
     this.$store.dispatch('getHomeList')

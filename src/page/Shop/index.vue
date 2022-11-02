@@ -163,12 +163,12 @@ export default {
     //获取限时购数据方法
     async getTimeLimit(){
       let res = await this.$API.reqGetShopTimeLimit()
-      this.timeLimit = res.data.data
+      this.timeLimit = res.data
     },
     //获取推荐数据方法
     async getRecommend(){
       let res = await this.$API.reqGetShopRecommend()
-      this.recommendList = res.data.data
+      this.recommendList = res.data
     }
   },
   computed: {

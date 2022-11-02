@@ -11,8 +11,8 @@
         <ul>
           <li :class="{ 'isActive' : searchParams.order == ''}" @click="changeOrderById">综合</li>
           <li :class="{ 'isActive' : searchParams.order != ''}" @click="changeOrderByPrice">价格
-            <i></i>
-            <i></i>
+            <i v-if="searchParams.order == 'asc'" class="iconfont icon-shangfan"></i>
+            <i v-if="searchParams.order == 'desc'" class="iconfont icon-xiafan"></i>
           </li>
           <li>销量</li>
           
@@ -20,18 +20,18 @@
       </div>
       <!-- 搜索列表 -->
       <div class="product-list">
-        <ul>
+        <ul @click="goProductDetail($event)">
           <li
             v-for="(searchListItem, index) in searchList[0]"
             :key="index"
-            @click="goDetail()"
+            :data-skuid="searchListItem.skuId"
           >
             <div class="product-list-img">
-              <img v-lazy="searchListItem.skuImg" alt="" />
+              <img :data-skuid="searchListItem.skuId" v-lazy="searchListItem.skuImg" alt="" />
             </div>
-            <div class="product-list-title">{{ searchListItem.skuName }}</div>
-            <div class="product-list-desc">{{ searchListItem.skuDesc }}</div>
-            <div class="product-list-price">
+            <div :data-skuid="searchListItem.skuId" class="product-list-title">{{ searchListItem.skuName }}</div>
+            <div :data-skuid="searchListItem.skuId" class="product-list-desc">{{ searchListItem.skuDesc }}</div>
+            <div :data-skuid="searchListItem.skuId" class="product-list-price">
               ¥ {{ searchListItem.skuPrice }} 起
             </div>
           </li>
@@ -94,6 +94,12 @@ export default {
     changeOrderById(){
       this.searchParams.order = ''
       this.getSearchList(this.searchParams);
+    },
+    goProductDetail(e){
+      if(e.target.dataset.skuid){
+        console.log(e.target.dataset.skuid)
+      }
+      
     }
   },
   computed: {
@@ -107,6 +113,14 @@ export default {
         this.total = this.searchList[1].total;
       },
     },
+    kewWord:{
+      deep:true,
+      handler(oldvalue, newValue){
+        this.searchParams.keyWord = this.$route.query.keyWord
+        console.log(this.searchParams)
+        this.getSearchList(this.searchParams);
+      }
+    }
   },
 };
 </script>
@@ -120,6 +134,7 @@ export default {
   height: 100%;
   padding-bottom: 20px;
   background-color: #f5f5f5;
+  cursor: pointer;
 }
 .search-list-warp {
   width: 1200px;

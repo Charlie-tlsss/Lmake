@@ -42,7 +42,7 @@
           <img src="@/assets/logo.png" />
         </router-link>
         <div class="header-list">
-          <ul>
+          <ul @click="getSearchList($event)">
             <li>手机</li>
             <li>笔记本</li>
             <li>平板</li>
@@ -66,6 +66,17 @@ export default {
       isLogin: true,
     };
   },
+  methods:{
+    getSearchList(e){
+      this.$router.push({
+        path: "/searchlist",
+        query:{
+         keyWord : e.target.innerText
+        }
+      });
+      
+    }
+  } 
 };
 </script>
 
