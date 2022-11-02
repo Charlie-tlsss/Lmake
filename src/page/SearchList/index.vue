@@ -4,44 +4,51 @@
       <!-- 面包屑 -->
       <el-breadcrumb separator-class="el-icon-arrow-right">
         <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item>手机</el-breadcrumb-item>
+        <el-breadcrumb-item>{{$route.query.keyWord}}</el-breadcrumb-item>
       </el-breadcrumb>
       <!-- 搜索头 -->
       <div class="search-selector">
         <ul>
-          <li>综合</li>
+          <li :class="{ 'isActive' : searchParams.order == ''}" @click="changeOrderById">综合</li>
+          <li :class="{ 'isActive' : searchParams.order != ''}" @click="changeOrderByPrice">价格
+            <i></i>
+            <i></i>
+          </li>
           <li>销量</li>
-          <li>新品</li>
-          <li>价格</li>
+          
         </ul>
       </div>
       <!-- 搜索列表 -->
       <div class="product-list">
         <ul>
-          <li v-for="(searchListItem,index) in searchList" :key="index" @click="goDetail()">
+          <li
+            v-for="(searchListItem, index) in searchList[0]"
+            :key="index"
+            @click="goDetail()"
+          >
             <div class="product-list-img">
-              <img
-                :src=searchListItem.skuImg
-                alt=""
-              />
+              <img v-lazy="searchListItem.skuImg" alt="" />
             </div>
-            <div class="product-list-title">{{searchListItem.skuName}}</div>
-            <div class="product-list-desc">{{searchListItem.skuDesc}}</div>
-            <div class="product-list-price">¥ {{searchListItem.skuPrice}} 起</div>
+            <div class="product-list-title">{{ searchListItem.skuName }}</div>
+            <div class="product-list-desc">{{ searchListItem.skuDesc }}</div>
+            <div class="product-list-price">
+              ¥ {{ searchListItem.skuPrice }} 起
+            </div>
           </li>
         </ul>
       </div>
       <!-- 分页器 -->
       <el-pagination
+        @current-change="handleCurrentChange"
         class="pagination"
         background
         layout="prev, pager, next"
-        :size="10"
-        :total="200"
+        :size="this.searchParams.page_num"
+        :total="this.total"
       >
       </el-pagination>
     </div>
-  </div>
+  </div> 
 </template>
 
 <script>
@@ -49,16 +56,18 @@ export default {
   name: "SearchList",
   data() {
     return {
-      searchParams:{
-        keyWord:this.$route.query.keyWord,
+      total: 0,
+      searchParams: {
+        keyWord: this.$route.query.keyWord,
+        page_size: 10,
+        page_num: 1,
+        order:''
       },
-      searchList :[],
-      
+      searchList: [],
     };
   },
-  mounted(){
-    this.getSearchList(this.searchParams)
-    console.log(this.searchParams)
+  mounted() {
+    this.getSearchList(this.searchParams);
   },
   methods: {
     goDetail() {
@@ -68,18 +77,44 @@ export default {
     },
     async getSearchList(searchParams) {
       let res = await this.$API.reqGetSearchList(searchParams);
-      this.searchList = res.data.data || []
+      this.searchList = res.data || [];
+    },
+    handleCurrentChange(newPage) {
+      this.searchParams.page_num = newPage
+      this.getSearchList(this.searchParams);
+    },
+    changeOrderByPrice(){
+      if(this.searchParams.order == ""){
+        this.searchParams.order = 'asc'
+      }else{
+        this.searchParams.order = this.searchParams.order == "asc" ? 'desc':'asc'
+      }
+      this.getSearchList(this.searchParams);
+    },
+    changeOrderById(){
+      this.searchParams.order = ''
+      this.getSearchList(this.searchParams);
+    }
+  },
+  computed: {
+    kewWord() {
+      return this.$route.query.keyWord;
     },
   },
-  computed:{
-    kewWord(){
-      return this.$route.query.keyWord
-    }
-  }
+  watch: {
+    searchList: {
+      handler(oldvalue, newValue) {
+        this.total = this.searchList[1].total;
+      },
+    },
+  },
 };
 </script>
 
 <style lang="less" scoped>
+.isActive{
+  color:#409eff;
+}
 .search-list {
   width: 100%;
   height: 100%;
@@ -95,6 +130,7 @@ export default {
     ul {
       display: flex;
       li {
+        cursor: pointer;
         width: 105px;
         height: 20px;
         line-height: 20 px;
