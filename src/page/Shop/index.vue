@@ -57,14 +57,11 @@
         <h2 class="title">限时购</h2>
         <div class="gird">
           <ul :style="'left:' + OffsteValue + 'px'">
-            <li v-for="(timeLimitItem,index) in timeLimit" :key="index">
-              <img
-                class="gird-img"
-                :src=timeLimitItem.skuImg
-              />
-              <div class="gird-title"> {{ timeLimitItem.skuName }}</div>
-              <div class="gird-desc">{{timeLimitItem.skuDesc}}</div>
-              <p class="gird-price">¥{{timeLimitItem.skuPrice}}</p>
+            <li  @click="goDetail(timeLimitItem.skuId)" v-for="(timeLimitItem, index) in timeLimit" :key="index">
+              <img class="gird-img" :src="timeLimitItem.skuImg" />
+              <div class="gird-title">{{ timeLimitItem.skuName }}</div>
+              <div class="gird-desc">{{ timeLimitItem.skuDesc }}</div>
+              <p class="gird-price">¥{{ timeLimitItem.skuPrice }}</p>
             </li>
           </ul>
         </div>
@@ -86,14 +83,16 @@
             />
           </div>
           <ul class="hot-goods-list">
-            <li class="borders" v-for="(hotGoodsList,index) in hotGoods" :key="index">
-              <img
-                class="hot-goods-img"
-                :src=hotGoodsList.skuImg
-              />
-              <div class="hot-goods-title">{{hotGoodsList.skuName}}</div>
-              <div class="hot-goods-desc">{{hotGoodsList.skuDesc}}</div>
-              <p class="hot-goods-price">¥{{hotGoodsList.skuPrice}}</p>
+            <li
+              class="borders"
+              v-for="(hotGoodsList, index) in hotGoods"
+              :key="index"
+               @click="goDetail(hotGoodsList.skuId)"
+            >
+              <img class="hot-goods-img" :src="hotGoodsList.skuImg" />
+              <div class="hot-goods-title">{{ hotGoodsList.skuName }}</div>
+              <div class="hot-goods-desc">{{ hotGoodsList.skuDesc }}</div>
+              <p class="hot-goods-price">¥{{ hotGoodsList.skuPrice }}</p>
             </li>
           </ul>
         </div>
@@ -103,16 +102,20 @@
           <ul>
             <li v-for="recommend in recommendList" :key="recommend.id">
               <div class="goods-recommend-img">
-                <img
-                  :src=recommend.skuImg
-                  alt=""
-                />
+                <img :src="recommend.skuImg" alt="" />
               </div>
               <div class="goods-recommend-text-content">
-                <div class="goods-recommend-title">{{recommend.skuName}}</div>
-                <div class="goods-recommend-desc">{{recommend.skuDesc}}</div>
-                <div class="goods-recommend-price">¥{{recommend.skuPrice}}</div>
-                <div class="goods-recommend-button">立即购买</div>
+                <div class="goods-recommend-title">{{ recommend.skuName }}</div>
+                <div class="goods-recommend-desc">{{ recommend.skuDesc }}</div>
+                <div class="goods-recommend-price">
+                  ¥{{ recommend.skuPrice }}
+                </div>
+                <div
+                  @click="goDetail(recommend.skuId)"
+                  class="goods-recommend-button"
+                >
+                  立即购买
+                </div>
               </div>
             </li>
           </ul>
@@ -125,10 +128,12 @@
 </template>
 
 <script>
+import { goDetailMixin } from "@/mixin/mixins";
 import { mapState } from "vuex";
 import Category from "./Category";
 import GoodsBox from "./GoodsBox";
 export default {
+  mixins: [goDetailMixin],
   name: "Shop",
   components: {
     Category,
@@ -139,9 +144,9 @@ export default {
       // 抢购的列表偏移值
       OffsteValue: 0,
       //限时购数据
-      timeLimit:[],
-      hotGoods:[],
-      recommendList:[]
+      timeLimit: [],
+      hotGoods: [],
+      recommendList: [],
     };
   },
   mounted() {
@@ -149,7 +154,6 @@ export default {
     //获取限时购数据
     this.getTimeLimit();
     this.getRecommend();
-    
   },
   methods: {
     goLeft() {
@@ -161,29 +165,28 @@ export default {
       this.OffsteValue -= 305;
     },
     //获取限时购数据方法
-    async getTimeLimit(){
-      let res = await this.$API.reqGetShopTimeLimit()
-      this.timeLimit = res.data
+    async getTimeLimit() {
+      let res = await this.$API.reqGetShopTimeLimit();
+      this.timeLimit = res.data;
     },
     //获取推荐数据方法
-    async getRecommend(){
-      let res = await this.$API.reqGetShopRecommend()
-      this.recommendList = res.data
-    }
+    async getRecommend() {
+      let res = await this.$API.reqGetShopRecommend();
+      this.recommendList = res.data;
+    },
   },
   computed: {
     ...mapState({
       shopList: (state) => state.shop.shopList,
     }),
-    
   },
-  watch:{
-    shopList:{
-      handler(newValue,OldValue){
-        this.hotGoods = this.shopList[0].list.slice(10,16)
-      }
-    }
-  }
+  watch: {
+    shopList: {
+      handler(newValue, OldValue) {
+        this.hotGoods = this.shopList[0].list.slice(10, 16);
+      },
+    },
+  },
 };
 </script>
 
@@ -279,7 +282,6 @@ export default {
           width: 285px;
           margin-right: 20px;
           margin-bottom: 20px;
-          transition: all 0.5s;
           cursor: pointer;
           &:hover {
             box-shadow: 0 2px 10px rgb(0 0 0 / 15%);
@@ -353,6 +355,7 @@ export default {
           width: 224px;
           height: 298px;
           margin-left: 20px;
+          cursor: pointer;
           .hot-goods-img {
             margin-top: 30px;
             height: 120px;
@@ -447,6 +450,7 @@ export default {
               border-radius: 50px;
               text-align: center;
               line-height: 40px;
+              cursor: pointer;
             }
           }
         }

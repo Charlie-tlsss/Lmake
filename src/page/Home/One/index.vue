@@ -7,7 +7,7 @@
         <div class="one-text">{{ itemList.skuDesc }}</div>
         <div class="one-button">
           <div class="one-button-buy">
-            <input type="button" value="购买" />
+            <input @click="goDetail(itemList.skuId)" type="button" value="购买" />
           </div>
           <div class="one-button-more">
             <a href=""
@@ -24,11 +24,13 @@
 </template>
 
 <script>
+import  { goDetailMixin }  from "@/mixin/mixins";
 import { mapState } from "vuex";
 //引入scrollReveal.js滚动动画
 import scrollReveal from "scrollreveal";
 import { set } from "vue";
 export default {
+  mixins:[goDetailMixin],
   name: "One",
   data() {
     return {

@@ -12,10 +12,10 @@
             <div class="product-list-content-top">
               <div class="plc-name">{{listItem.skuName}}</div>
               <div class="plc-title">{{listItem.skuDesc}}</div>
-              <div class="plc-text">{{listItem.title}}</div>
+              <div class="plc-text">{{listItem.skuTitle}}</div>
               <div class="plc-btn">
                 <div class="plc-btn-buy">
-                  <button>购买</button>
+                  <button @click="goDetail(listItem.skuId)" >购买</button>
                 </div>
                 <div class="plc-btn-more">
                   <a href=""
@@ -84,8 +84,10 @@
 import Footer from "./Footer";
 import One from "./One";
 import Nav from "./Nav";
+import  { goDetailMixin }  from "@/mixin/mixins";
 import { mapState } from 'vuex';
 export default {
+  mixins:[goDetailMixin],
   name: "Home",
   data() {
     return {

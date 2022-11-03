@@ -16,8 +16,9 @@ export default [
         component:() => import('@/page/SearchList'),
     },
     {
-        path:'/productdetail/:id?',
+        path:'/productdetail',
         component:() => import('@/page/ProductDetail'),
+        name:'productDetail'
     },
     //重定向
     {

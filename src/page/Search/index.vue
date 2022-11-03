@@ -16,8 +16,8 @@
       <div class="search-hotSearch">
         <p class="box-title">热门搜索</p>
         <ul>
-          <li v-for="hotSearch in hotSearchList" :key="hotSearch.id">
-            <a href="" class="hs-img">
+          <li @click="goDetail(hotSearch.skuId)" v-for="hotSearch in hotSearchList" :key="hotSearch.id">
+            <a class="hs-img">
               <img v-lazy="hotSearch.skuImg" alt="" />
             </a>
             <div>{{hotSearch.skuName}}</div>
@@ -40,7 +40,9 @@
 </template>
 
 <script>
+import  { goDetailMixin }  from "@/mixin/mixins";
 export default {
+  mixins:[goDetailMixin],
   name: "Search",
   data(){
     return {

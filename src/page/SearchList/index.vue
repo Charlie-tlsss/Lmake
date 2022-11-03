@@ -37,6 +37,9 @@
           </li>
         </ul>
       </div>
+      <div class="noSearchList" v-if="total === 0">
+        暂未搜索到商品
+      </div>
       <!-- 分页器 -->
       <el-pagination
         @current-change="handleCurrentChange"
@@ -52,29 +55,27 @@
 </template>
 
 <script>
+import  { goDetailMixin }  from "@/mixin/mixins";
 export default {
+  mixins:[ goDetailMixin ],
   name: "SearchList",
   data() {
     return {
-      total: 0,
+      total:NaN,
       searchParams: {
         keyWord: this.$route.query.keyWord,
         page_size: 10,
         page_num: 1,
         order:''
       },
-      searchList: [],
+      searchList: [[],],
     };
   },
   mounted() {
     this.getSearchList(this.searchParams);
+    console.log(this.goDetail)
   },
   methods: {
-    goDetail() {
-      this.$router.push({
-        path: "/productdetail",
-      });
-    },
     async getSearchList(searchParams) {
       let res = await this.$API.reqGetSearchList(searchParams);
       this.searchList = res.data || [];
@@ -97,9 +98,8 @@ export default {
     },
     goProductDetail(e){
       if(e.target.dataset.skuid){
-        console.log(e.target.dataset.skuid)
+        this.goDetail(e.target.dataset.skuid);
       }
-      
     }
   },
   computed: {
@@ -117,7 +117,6 @@ export default {
       deep:true,
       handler(oldvalue, newValue){
         this.searchParams.keyWord = this.$route.query.keyWord
-        console.log(this.searchParams)
         this.getSearchList(this.searchParams);
       }
     }
@@ -135,6 +134,11 @@ export default {
   padding-bottom: 20px;
   background-color: #f5f5f5;
   cursor: pointer;
+}
+.noSearchList{
+  text-align: center;
+  margin:200px 0;
+  font-size: 30px;
 }
 .search-list-warp {
   width: 1200px;

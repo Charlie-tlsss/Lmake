@@ -9,16 +9,17 @@
         />
       </div>
       <div class="goods-box-list">
-        <ul>
-          <li v-for="listItem in list.list.slice(0,10)" :key="listItem.skuId">
-            <div class="goods-box-list-img">
+        <ul @click="goProductDetail($event)">
+          <li :data-skuid="listItem.skuId" v-for="listItem in list.list.slice(0,10)" :key="listItem.skuId">
+            <div  class="goods-box-list-img">
               <img
+                :data-skuid="listItem.skuId"
                 :src="listItem.skuImg"
               />
             </div>
-            <div class="goods-box-list-title">{{listItem.skuName}}</div>
-            <div class="goods-box-list-desc">{{listItem.skuDesc}}</div>
-            <div class="goods-box-list-price">¥{{listItem.skuPrice}}</div>
+            <div :data-skuid="listItem.skuId" class="goods-box-list-title">{{listItem.skuName}}</div>
+            <div :data-skuid="listItem.skuId" class="goods-box-list-desc">{{listItem.skuDesc}}</div>
+            <div :data-skuid="listItem.skuId" class="goods-box-list-price">¥{{listItem.skuPrice}}</div>
           </li>
         </ul>
       </div>
@@ -27,9 +28,18 @@
 </template>
 
 <script>
+import  { goDetailMixin }  from "@/mixin/mixins";
 export default {
+  mixins:[goDetailMixin],
   name: "GoodsBox",
-  props:['shopList']
+  props:['shopList'],
+  methods:{
+    goProductDetail(e){
+      if(e.target.dataset.skuid){
+        this.goDetail(e.target.dataset.skuid)
+      }
+    }
+  }
 };
 </script>
 
@@ -65,6 +75,7 @@ export default {
         margin-right: 0;
       }
       li {
+        cursor: pointer;
         background-color: #fff;
         margin-top: 20px;
         width: 224px;
