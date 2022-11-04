@@ -16,34 +16,39 @@
             class="left-content"
             :class="{ startSticky: isStartStickyed, endSticky: isEndStickyed }"
           >
-            <div class="dcl-bigimg">
+            <!-- <div class="dcl-bigimg">
               <img
                 src="https://shopstatic.vivo.com.cn/vivoshop/commodity/63/10007363_1651219649045_750x750.png.webp"
                 alt=""
               />
-            </div>
+            </div> -->
+            <Zoom />
             <div class="dcl-img-list">
-              <div class="img-list-l"></div>
+              <div @click="imgListGoLeft" class="img-list-l">
+                <i class="iconfont icon-xiangzuojiantou"></i>
+              </div>
               <div class="img-list-content">
-                <ul :style="'left:'+offSet+'px'">
+                <ul ref="listUl" :style="'left:' + offSet + 'px'">
                   <li>
-                    <img src="./images/show1.jpg" alt="">
+                    <img src="./images/show1.jpg" alt="" />
                   </li>
                   <li>
-                    <img src="./images/show2.jpg" alt="">
+                    <img src="./images/show2.jpg" alt="" />
                   </li>
                   <li>
-                    <img src="./images/show3.jpg" alt="">
+                    <img src="./images/show3.jpg" alt="" />
                   </li>
                   <li>
-                    <img src="./images/show4.jpg" alt="">
+                    <img src="./images/show4.jpg" alt="" />
                   </li>
                   <li>
-                    <img src="./images/show5.jpg" alt="">
+                    <img src="./images/show5.jpg" alt="" />
                   </li>
                 </ul>
               </div>
-              <div @click="" class="img-list-r"></div>
+              <div @click="imgListGoRight" class="img-list-r">
+                <i class="iconfont icon-xiangyoujiantou"></i>
+              </div>
             </div>
           </div>
         </div>
@@ -93,36 +98,71 @@
         </div>
       </div>
     </div>
-    <div class="detail-tab">
+    <!-- 下方导航栏 -->
+    <div ref="detailTab" class="detail-tab">
       <ul>
-        <li>商品详情</li>
-        <li>规格参数</li>
-        <li>包装与售后</li>
-        <li>用户评价（100条）</li>
+        <li
+          @click="jump(detailShowTop)"
+          :class="{
+            detailTabActive:isDetailShowActive ,
+          }"
+        >
+          商品详情
+        </li>
+        <li @click="jump(ParameterTop)" :class="{ detailTabActive: isParameterActive }">
+          规格参数
+        </li>
+        <li @click="jump(RemarkTop)" :class="{ detailTabActive: isRemarkActive }">
+          用户评价（100条）
+        </li>
       </ul>
     </div>
-    <div class="detail-show">
-      <img src="./images/show.png" >
-      
+    <!-- 图片展示区 -->
+    <div ref="detailShow" class="detail-show">
+      <img src="./images/show.png" />
     </div>
+    <!-- 商品参数 -->
+    <Parameter ref="Parameter" />
+    <!-- 评论 -->
+    <Remark ref="Remark" />
   </div>
 </template>
 
 <script>
 import _ from "lodash";
+import Remark from "./Remark";
+import Parameter from "./Parameter";
+import Zoom from "./Zoom";
 export default {
   name: "ProductDetail",
+  components: {
+    Parameter,
+    Remark,
+    Zoom
+  },
   data() {
     return {
-      offSet:0,
+      //小图片列表偏移
+      offSet: 0,
+      //页面滚轮位置
       top: "",
+      //商品数量
       num: 1,
+      detailShowTop: "",
+      ParameterTop: "",
+      RemarkTop: "",
     };
   },
   mounted() {
     window.addEventListener("scroll", this.handleScroll, true);
+    setTimeout(() => {
+      this.detailShowTop = this.$refs.detailShow.offsetTop;
+      this.ParameterTop = this.$refs.Parameter.$el.offsetTop;
+      this.RemarkTop = this.$refs.Remark.$el.offsetTop;
+    }, 1000);
   },
   methods: {
+    //Element计数器
     handleChange(value) {
       console.log(value);
     },
@@ -133,9 +173,26 @@ export default {
           document.documentElement.scrollTop ||
           window.pageYOffset
       );
-      console.log(top);
       this.top = top;
-    }),
+    }, 16),
+    //小轮播图列表左右按钮
+    imgListGoLeft() {
+      if (this.offSet < 0) {
+        this.offSet += 93;
+        console.log(1);
+      }
+    },
+    imgListGoRight() {
+      if (this.offSet > this.maxOffSet) {
+        this.offSet += -93;
+      }
+    },
+    jump(top) {
+      window.scrollTo({
+        top: top - 50,
+        behavior: "smooth",
+      });
+    },
   },
   computed: {
     isStartStickyed() {
@@ -144,13 +201,29 @@ export default {
     isEndStickyed() {
       return this.top >= 500;
     },
+    //小图片列表的最大偏移量
+    maxOffSet() {
+      return -(this.$refs.listUl.childElementCount - 4) * 93;
+    },
+    isDetailShowActive() {
+      return this.top >= this.detailShowTop - 50 && this.top < this.ParameterTop - 50;
+    },
+    isParameterActive(){
+      return this.top >= this.ParameterTop - 50 && this.top < this.RemarkTop - 50;
+    },
+    isRemarkActive(){
+      return this.top >= this.RemarkTop -50
+    }
   },
 };
 </script>
 
 <style lang="less" scoped>
+.detailTabActive {
+  color: #f51200;
+}
 .startSticky {
-  position: fixed;
+  position: fixed !important;
   top: 0;
 }
 .endSticky {
@@ -177,6 +250,8 @@ export default {
       position: relative;
       width: 515px;
       overflow: hidden;
+      .left-content{
+      }
       .dcl-bigimg {
         img {
           width: 515px;
@@ -189,40 +264,46 @@ export default {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        .img-list-l{
+        i {
+          color: rgb(149, 149, 149);
+        }
+        .img-list-l {
           height: 40px;
           width: 40px;
-          background-color: skyblue;
           border-radius: 50px;
-          border: 1px solid #ddd;
+          border: 1px solid rgb(149, 149, 149);
+          text-align: center;
+          line-height: 40px;
+          cursor: pointer;
         }
-        .img-list-content{
+        .img-list-content {
           position: relative;
           width: 364px;
-          background-color: orange;
           height: 100%;
           overflow: hidden;
-          ul{
+          ul {
             position: absolute;
             display: flex;
-            transition: all .5s;
-            li:first-child{
+            transition: all 0.5s;
+            li:first-child {
               margin-left: 0;
             }
-            li{
+            li {
               margin-left: 8px;
-              img{
+              img {
                 width: 85px;
               }
             }
           }
         }
-        .img-list-r{
+        .img-list-r {
           height: 40px;
           width: 40px;
-          background-color: skyblue;
           border-radius: 50px;
           border: 1px solid #ddd;
+          text-align: center;
+          line-height: 40px;
+          cursor: pointer;
         }
       }
     }
@@ -270,6 +351,7 @@ export default {
         ul {
           display: flex;
           flex-wrap: wrap;
+          height: 134px;
           justify-content: space-between;
           li {
             width: 245px;
@@ -341,10 +423,13 @@ export default {
   }
 }
 .detail-tab {
+  background-color: #fff;
   border-top: 1px solid #a4a4a4;
   border-bottom: 1px solid #a4a4a4;
   width: 100%;
   height: 50px;
+  position: sticky;
+  top: 0px;
   ul {
     display: flex;
     justify-content: center;
