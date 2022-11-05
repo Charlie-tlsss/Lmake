@@ -32,7 +32,7 @@ export default {
       if (left < 0) left = 0;
       if (left > mask.offsetWidth) left = mask.offsetWidth;
       if (top < 0) top = 0;
-      if (top > 200) top = 200;
+      if (top > mask.offsetHeight) top = mask.offsetHeight;
       mask.style.left = left + "px";
       mask.style.top = top + "px";
       big.style.left = -2 * left + "px";
@@ -59,7 +59,7 @@ export default {
     position: absolute;
     top: 0;
     left: 0;
-    z-index: 99999;
+    z-index: 999;
     overflow: hidden;
   }
 

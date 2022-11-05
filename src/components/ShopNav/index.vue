@@ -15,8 +15,8 @@
           <ul>
             <li>
               <div v-if="isLogin">
-                <a href="">登录</a> |
-                <a href="">注册</a>
+                <router-link to="/login">登录</router-link> |
+                <router-link to="/register">注册</router-link>
               </div>
               <div v-else>
                 <el-dropdown>

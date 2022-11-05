@@ -10,15 +10,28 @@ export default [
     {
         path:'/shop',
         component:() => import('@/page/Shop'),
+        meta:{
+            isShowHF:true
+        }
     },
     {
         path:'/searchlist',
         component:() => import('@/page/SearchList'),
+        meta:{
+            isShowHF:true
+        }
     },
     {
         path:'/productdetail',
         component:() => import('@/page/ProductDetail'),
-        name:'productDetail'
+        name:'productDetail',
+        meta:{
+            isShowHF:true
+        }
+    },
+    {
+        path:'/login',
+        component:() => import('@/page/Login'),
     },
     //重定向
     {

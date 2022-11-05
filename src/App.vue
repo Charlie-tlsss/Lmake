@@ -1,8 +1,8 @@
 <template>
   <div>
-    <ShopNav v-if="notShowShopNav" />
+    <ShopNav v-if="$route.meta.isShowHF" />
     <router-view></router-view>
-    <ShopFooter v-if="notShowShopNav" />
+    <ShopFooter v-if="$route.meta.isShowHF" />
 
   </div>
 </template>
@@ -15,10 +15,9 @@ export default {
     ShopNav,
     ShopFooter,
   },
-  computed:{
-    notShowShopNav(){
-      return this.$route.path != '/home' && this.$route.path != '/search'
-    }
+  mounted(){
+    console.log(this.$route.meta.idShowHF)
+    console.log(123)
   }
 };
 </script>

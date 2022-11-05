@@ -16,13 +16,7 @@
             class="left-content"
             :class="{ startSticky: isStartStickyed, endSticky: isEndStickyed }"
           >
-            <!-- <div class="dcl-bigimg">
-              <img
-                src="https://shopstatic.vivo.com.cn/vivoshop/commodity/63/10007363_1651219649045_750x750.png.webp"
-                alt=""
-              />
-            </div> -->
-            <Zoom />
+            <Zoom ref="zoom" />
             <div class="dcl-img-list">
               <div @click="imgListGoLeft" class="img-list-l">
                 <i class="iconfont icon-xiangzuojiantou"></i>
@@ -81,7 +75,7 @@
               v-model="num"
               @change="handleChange"
               :min="1"
-              :max="10"
+              :max="99"
               label="描述文字"
             ></el-input-number>
           </div>
@@ -104,15 +98,21 @@
         <li
           @click="jump(detailShowTop)"
           :class="{
-            detailTabActive:isDetailShowActive ,
+            detailTabActive: isDetailShowActive,
           }"
         >
           商品详情
         </li>
-        <li @click="jump(ParameterTop)" :class="{ detailTabActive: isParameterActive }">
+        <li
+          @click="jump(ParameterTop)"
+          :class="{ detailTabActive: isParameterActive }"
+        >
           规格参数
         </li>
-        <li @click="jump(RemarkTop)" :class="{ detailTabActive: isRemarkActive }">
+        <li
+          @click="jump(RemarkTop)"
+          :class="{ detailTabActive: isRemarkActive }"
+        >
           用户评价（100条）
         </li>
       </ul>
@@ -138,7 +138,7 @@ export default {
   components: {
     Parameter,
     Remark,
-    Zoom
+    Zoom,
   },
   data() {
     return {
@@ -159,6 +159,7 @@ export default {
       this.detailShowTop = this.$refs.detailShow.offsetTop;
       this.ParameterTop = this.$refs.Parameter.$el.offsetTop;
       this.RemarkTop = this.$refs.Remark.$el.offsetTop;
+      console.log(this.$refs.zoom.$el.offsetTop);
     }, 1000);
   },
   methods: {
@@ -206,14 +207,18 @@ export default {
       return -(this.$refs.listUl.childElementCount - 4) * 93;
     },
     isDetailShowActive() {
-      return this.top >= this.detailShowTop - 50 && this.top < this.ParameterTop - 50;
+      return (
+        this.top >= this.detailShowTop - 50 && this.top < this.ParameterTop - 50
+      );
     },
-    isParameterActive(){
-      return this.top >= this.ParameterTop - 50 && this.top < this.RemarkTop - 50;
+    isParameterActive() {
+      return (
+        this.top >= this.ParameterTop - 50 && this.top < this.RemarkTop - 50
+      );
     },
-    isRemarkActive(){
-      return this.top >= this.RemarkTop -50
-    }
+    isRemarkActive() {
+      return this.top >= this.RemarkTop - 50;
+    },
   },
 };
 </script>
@@ -223,7 +228,8 @@ export default {
   color: #f51200;
 }
 .startSticky {
-  position: fixed !important;
+  position: fixed;
+  z-index: 9999;
   top: 0;
 }
 .endSticky {
@@ -249,9 +255,6 @@ export default {
     .detail-content-left {
       position: relative;
       width: 515px;
-      overflow: hidden;
-      .left-content{
-      }
       .dcl-bigimg {
         img {
           width: 515px;
