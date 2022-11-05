@@ -86,7 +86,7 @@
             </div>
             <div class="settle-button">
               <div class="settle-button-buy">立即购买</div>
-              <div class="settle-button-addcart">加入购物车</div>
+              <div class="settle-button-addcart" @click="addCart()">加入购物车</div>
             </div>
           </div>
         </div>
@@ -194,6 +194,11 @@ export default {
         behavior: "smooth",
       });
     },
+    addCart(){
+      this.$router.push({
+        path:'/cart'
+      })
+    }
   },
   computed: {
     isStartStickyed() {

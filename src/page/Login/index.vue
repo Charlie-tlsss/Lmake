@@ -96,11 +96,9 @@ input[type="number"]{
     margin-left: 25px;
   }
   input {
+    width: 150px;
     margin-left: 20px;
     height: 55px;
-    background: none;
-    outline: none;
-    border: none;
     line-height: 1;
     font-weight: 600;
     font-size: 1.1rem;

@@ -30,6 +30,13 @@ export default [
         }
     },
     {
+        path:'/cart',
+        component:() => import('@/page/Cart'),
+        meta:{
+            isShowHF:true
+        }
+    },
+    {
         path:'/login',
         component:() => import('@/page/Login'),
     },
