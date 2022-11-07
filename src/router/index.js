@@ -40,6 +40,13 @@ export default [
         path:'/login',
         component:() => import('@/page/Login'),
     },
+    {
+        path:'/trade',
+        component:() => import('@/page/Trade'),
+        meta:{
+            isShowHF:true
+        }
+    },
     //重定向
     {
         path: '/',

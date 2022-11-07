@@ -54,7 +54,7 @@
           </label>
           <a href="">删除</a>
         </div>
-        <div class="cart-total-btn">立即结算</div>
+        <div class="cart-total-btn" @click="goTrade">立即结算</div>
         <div class="cart-total-price">
           <p>总计:<span>¥2345.00</span></p>
           <div>已选择<span>1</span>件商品</div>
@@ -72,6 +72,13 @@ export default {
       num: 1,
     };
   },
+  methods:{
+    goTrade(){
+      this.$router.push({
+        path:'/trade'
+      })
+    }
+  }
 };
 </script>
 

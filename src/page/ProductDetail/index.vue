@@ -87,7 +87,7 @@
             </div>
             <div class="settle-button">
               <div class="settle-button-buy">立即购买</div>
-              <div class="settle-button-addcart">加入购物车</div>
+              <div class="settle-button-addcart" @click="addCart">加入购物车</div>
             </div>
           </div>
         </div>
@@ -189,6 +189,9 @@ export default {
         behavior: "smooth",
       });
     },
+    addCart(){
+      
+    }
   },
   computed: {
     isStartStickyed() {
@@ -245,8 +248,6 @@ export default {
     .detail-content-left {
       position: relative;
       width: 515px;
-      .left-content{
-      }
       .dcl-bigimg {
         img {
           width: 515px;

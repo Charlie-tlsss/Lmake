@@ -15,10 +15,6 @@ export default {
     ShopNav,
     ShopFooter,
   },
-  mounted(){
-    console.log(this.$route.meta.idShowHF)
-    console.log(123)
-  }
 };
 </script>
 
