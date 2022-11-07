@@ -16,6 +16,7 @@
             class="left-content"
             :class="{ startSticky: isStartStickyed, endSticky: isEndStickyed }"
           >
+            
             <Zoom ref="zoom" />
             <div class="dcl-img-list">
               <div @click="imgListGoLeft" class="img-list-l">
@@ -75,7 +76,7 @@
               v-model="num"
               @change="handleChange"
               :min="1"
-              :max="99"
+              :max="10"
               label="描述文字"
             ></el-input-number>
           </div>
@@ -86,7 +87,7 @@
             </div>
             <div class="settle-button">
               <div class="settle-button-buy">立即购买</div>
-              <div class="settle-button-addcart" @click="addCart()">加入购物车</div>
+              <div class="settle-button-addcart">加入购物车</div>
             </div>
           </div>
         </div>
@@ -98,21 +99,15 @@
         <li
           @click="jump(detailShowTop)"
           :class="{
-            detailTabActive: isDetailShowActive,
+            detailTabActive:isDetailShowActive ,
           }"
         >
           商品详情
         </li>
-        <li
-          @click="jump(ParameterTop)"
-          :class="{ detailTabActive: isParameterActive }"
-        >
+        <li @click="jump(ParameterTop)" :class="{ detailTabActive: isParameterActive }">
           规格参数
         </li>
-        <li
-          @click="jump(RemarkTop)"
-          :class="{ detailTabActive: isRemarkActive }"
-        >
+        <li @click="jump(RemarkTop)" :class="{ detailTabActive: isRemarkActive }">
           用户评价（100条）
         </li>
       </ul>
@@ -138,7 +133,7 @@ export default {
   components: {
     Parameter,
     Remark,
-    Zoom,
+    Zoom
   },
   data() {
     return {
@@ -159,7 +154,7 @@ export default {
       this.detailShowTop = this.$refs.detailShow.offsetTop;
       this.ParameterTop = this.$refs.Parameter.$el.offsetTop;
       this.RemarkTop = this.$refs.Remark.$el.offsetTop;
-      console.log(this.$refs.zoom.$el.offsetTop);
+      console.log(this.$refs.zoom.$el.offsetTop)
     }, 1000);
   },
   methods: {
@@ -194,11 +189,6 @@ export default {
         behavior: "smooth",
       });
     },
-    addCart(){
-      this.$router.push({
-        path:'/cart'
-      })
-    }
   },
   computed: {
     isStartStickyed() {
@@ -212,18 +202,14 @@ export default {
       return -(this.$refs.listUl.childElementCount - 4) * 93;
     },
     isDetailShowActive() {
-      return (
-        this.top >= this.detailShowTop - 50 && this.top < this.ParameterTop - 50
-      );
+      return this.top >= this.detailShowTop - 50 && this.top < this.ParameterTop - 50;
     },
-    isParameterActive() {
-      return (
-        this.top >= this.ParameterTop - 50 && this.top < this.RemarkTop - 50
-      );
+    isParameterActive(){
+      return this.top >= this.ParameterTop - 50 && this.top < this.RemarkTop - 50;
     },
-    isRemarkActive() {
-      return this.top >= this.RemarkTop - 50;
-    },
+    isRemarkActive(){
+      return this.top >= this.RemarkTop -50
+    }
   },
 };
 </script>
@@ -233,8 +219,7 @@ export default {
   color: #f51200;
 }
 .startSticky {
-  position: fixed;
-  z-index: 9999;
+  position: fixed !important;
   top: 0;
 }
 .endSticky {
@@ -260,6 +245,8 @@ export default {
     .detail-content-left {
       position: relative;
       width: 515px;
+      .left-content{
+      }
       .dcl-bigimg {
         img {
           width: 515px;

@@ -91,6 +91,7 @@ export default {
     }
   }
   .nav-lists ul {
+    margin-left: 50px;
     overflow: hidden;
     font-weight: 400;
     // margin-left: 2%;
