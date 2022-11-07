@@ -31,7 +31,7 @@
               </div>
             </li>
             <li>我的订单</li>
-            <li>购物车(0)</li>
+            <li><router-link to="cart">购物车(0)</router-link></li>
           </ul>
         </div>
       </div>
