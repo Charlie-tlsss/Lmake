@@ -16,6 +16,6 @@ requests.interceptors.response.use((res) => {
     nprogress.done()
     return res.data
 }, (err) => {
-    return Promise.reject(new Error('faile'));
+    return err
 })
 export default requests;

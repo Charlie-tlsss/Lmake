@@ -190,7 +190,9 @@ export default {
       });
     },
     addCart(){
-      
+      this.$router.push({
+        path:'/cart'
+      })
     }
   },
   computed: {

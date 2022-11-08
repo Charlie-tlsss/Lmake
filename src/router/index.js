@@ -47,6 +47,13 @@ export default [
             isShowHF:true
         }
     },
+    {
+        path:'/Pay',
+        component:() => import('@/page/Pay'),
+        meta:{
+            isShowHF:true
+        }
+    },
     //重定向
     {
         path: '/',
