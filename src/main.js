@@ -16,7 +16,10 @@ Vue.use(VueLazyload, {
   loading: Q,
 })
 //引入api
-import * as API from '@/api/requests';
+import * as API from '@/api/index';
+//注册全局组件remarkdetail
+import RemarkDetail from '@/components/RemarkDetail';
+Vue.component('RemarkDetail',RemarkDetail)
 
 Vue.use(ElementUI);
 Vue.config.productionTip = false

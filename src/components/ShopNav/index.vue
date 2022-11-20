@@ -15,19 +15,20 @@
           <ul>
             <li>
               <div v-if="isLogin">
-                <router-link to="/login">登录</router-link> |
-                <router-link to="/register">注册</router-link>
-              </div>
-              <div v-else>
                 <el-dropdown>
                   <span class="el-dropdown-link">
-                    Charlie<i class="el-icon-arrow-down el-icon--right"></i>
+                    {{ username }}
+                    <i class="el-icon-arrow-down el-icon--right"></i>
                   </span>
                   <el-dropdown-menu slot="dropdown">
                     <el-dropdown-item>我的商城</el-dropdown-item>
                     <el-dropdown-item>退出登录</el-dropdown-item>
                   </el-dropdown-menu>
                 </el-dropdown>
+              </div>
+              <div v-else>
+                <router-link to="/login">登录</router-link> |
+                <router-link to="/register">注册</router-link>
               </div>
             </li>
             <li><router-link to="/center">我的订单</router-link></li>
@@ -59,28 +60,41 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
   name: "ShopNav",
   data() {
     return {
-      isLogin: true,
+      isLogin: false,
     };
   },
-  methods:{
-    getSearchList(e){
+  mounted() {
+    let res = this.$store.dispatch("getUserInfo");
+    if (res) this.isLogin = true;
+  },
+  methods: {
+    getSearchList(e) {
       this.$router.push({
         path: "/searchlist",
-        query:{
-         keyWord : e.target.innerText
-        }
+        query: {
+          keyWord: e.target.innerText,
+        },
       });
-      
-    }
-  } 
+    },
+  },
+  computed: {
+    ...mapState({
+      username: (state) => state.user.userInfo.username,
+    }),
+  },
 };
 </script>
 
 <style lang="less" scoped>
+.el-dropdown {
+  color: #fff;
+}
 .short-cut {
   width: 100%;
   height: 36px;
@@ -100,7 +114,6 @@ export default {
       opacity: 0.8;
       a {
         color: #fff;
-        opacity: 0.8;
       }
     }
     li {
@@ -117,7 +130,7 @@ export default {
 }
 .header {
   width: 100%;
-   box-shadow:0 1px 20px rgba(137, 137, 137, 0.375);
+  box-shadow: 0 1px 20px rgba(137, 137, 137, 0.375);
   .header-warp {
     width: 1200px;
     height: 65px;
@@ -131,11 +144,11 @@ export default {
         cursor: pointer;
       }
     }
-    .header-list{
-      ul{
+    .header-list {
+      ul {
         display: flex;
         margin-right: 78px;
-        li{
+        li {
           width: 100px;
           text-align: center;
           cursor: pointer;

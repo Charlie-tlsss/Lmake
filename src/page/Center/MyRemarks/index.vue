@@ -7,7 +7,9 @@
         </div>
       </el-tab-pane>
       <el-tab-pane label="已评价" name="second">
-        <div class="remarked default">已评价</div>
+        <div class="tobe-remark default">
+          <RemarkList />
+        </div>
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -36,6 +38,7 @@ export default {
 <style lang="less" scoped>
 ::v-deep .el-tabs__header {
   padding-left: 80px !important;
+  background-color: #fff;
   margin: 0;
 }
 ::v-deep .el-tabs__nav-wrap::after {

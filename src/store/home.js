@@ -1,4 +1,4 @@
-import { reqGetHomeBigItem,reqGetHomeList,reqGetHeaderList } from "@/api/requests";
+import { reqGetHomeBigItem,reqGetHomeList,reqGetHeaderList } from "@/api/index";
 export default {
     state:{
         homeBigItem:[],

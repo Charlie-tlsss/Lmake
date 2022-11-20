@@ -32,4 +32,6 @@ let router = new VueRouter({
     }
 })
 
+router.beforeEach()
+
 export default router

@@ -96,6 +96,13 @@ export default [
 
         ]
     },
+    {   
+        path:'/remark',
+        component:() => import('@/page/Remark'),
+        meta: {
+            isShowHF: true
+        }
+    },
     //重定向
     {
         path: '/',

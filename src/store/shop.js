@@ -1,4 +1,4 @@
-import { reqGetShopList } from "@/api/requests";
+import { reqGetShopList } from "@/api/index";
 export default {
     state:{
         shopList:[]

@@ -2,41 +2,92 @@
   <div class="container" :class="{ 'sign-up-mode': isRegister }">
     <div class="forms-container">
       <div class="signin-signup">
-        <form action="#" class="sign-in-form">
+        <el-form class="sign-in-form demo-ruleForm">
           <h2 class="title">登录</h2>
-          <div class="input-field">
-            <i class="iconfont icon-yonghuming"></i>
-            <input type="text" placeholder="用户名" />
-          </div>
-          <div class="input-field">
-            <i class="iconfont icon-mima"></i>
-            <input type="password" placeholder="密码" />
-          </div>
-          <input type="submit" value="立即登录" class="btn solid" />
-        </form>
-        <form action="#" class="sign-up-form">
+          <el-form-item>
+            <el-input v-model.trim="loginForm.username" placeholder="用户名">
+              <i slot="prefix" class="iconfont icon-yonghuming"></i>
+            </el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-input
+              v-model.trim="loginForm.password"
+              type="password"
+              placeholder="密码"
+            >
+              <i slot="prefix" class="iconfont icon-mima"></i>
+            </el-input>
+          </el-form-item>
+          <el-button @click.prevent="login" class="btn">登录 </el-button>
+        </el-form>
+        <el-form
+          :rules="rules"
+          class="sign-up-form demo-ruleForm"
+          ref="ruleForm"
+          :model="userForm"
+        >
           <h2 class="title">注册</h2>
-          <div class="input-field">
-            <i class="iconfont iconfont icon-yonghuming"></i>
-            <input type="text" placeholder="用户名" />
-          </div>
-          <div class="input-field">
-            <i class="iconfont iconfont icon-shouji"></i>
-            <input type="email" placeholder="手机" />
-          </div>
-          <div class="input-field" id="code">
-            <div class="in-code">
-              <i class="iconfont icon-yanzhengma"></i>
-              <input type="number" placeholder="请输入验证码" name="" id="" />
-            </div>
-            <button class="get-code">获取验证码</button>
-          </div>
-          <div class="input-field">
-            <i class="iconfont icon-mima"></i>
-            <input type="password" placeholder="密码" />
-          </div>
-          <input type="submit" class="btn" value="立即注册" />
-        </form>
+          <el-form-item prop="username">
+            <el-input
+              @input="isUsernameOccupy(userForm.username)"
+              v-model.trim="userForm.username"
+              placeholder="用户名"
+            >
+              <i slot="prefix" class="iconfont icon-yonghuming"></i>
+            </el-input>
+            <i
+              v-if="usernameStatus === 1"
+              class="iconfont icon-chenggong1 isUsernameOccupy"
+              >用户名可用</i
+            >
+            <i
+              v-if="usernameStatus === 0"
+              style="color: red"
+              class="iconfont icon-shibai isUsernameOccupy"
+              >用户已经被占用</i
+            >
+          </el-form-item>
+          <el-form-item prop="email">
+            <el-input v-model.trim="userForm.email" placeholder="邮箱">
+              <i slot="prefix" class="iconfont icon-icon-mail"></i>
+            </el-input>
+          </el-form-item>
+          <el-form-item prop="codeKey">
+            <el-input
+              type="number"
+              v-model.trim="userForm.codeKey"
+              class="code"
+              placeholder="验证码"
+            >
+              <i slot="prefix" class="iconfont icon-yanzhengma"></i>
+            </el-input>
+            <input
+              :disabled="codeStatus != '获取验证码'"
+              @click="getCode"
+              :class="{ doNotClick: codeStatus != '获取验证码' }"
+              class="get-code"
+              :value="codeStatus"
+              type="button"
+            />
+          </el-form-item>
+          <el-form-item>
+            <el-input
+              type="password"
+              v-model.trim="userForm.password"
+              placeholder="密码"
+            >
+              <i slot="prefix" class="iconfont icon-mima"></i>
+            </el-input>
+          </el-form-item>
+
+          <el-button
+            @click.prevent="submitForm"
+            type="submit"
+            class="btn"
+            value="立即注册"
+            >立即注册
+          </el-button>
+        </el-form>
       </div>
     </div>
 
@@ -62,16 +113,135 @@
 </template>
 
 <script>
+import _ from "lodash";
 export default {
   name: "Login",
   data() {
     return {
-      isRegister: true,
+      loginForm: {
+        username: "",
+        password: "",
+      },
+      userForm: {
+        username: "",
+        email: "",
+        codeKey: "",
+        password: "",
+      },
+      //表单验证规则
+      rules: {
+        username: [
+          { required: true, message: "用户名不能为空", trigger: "blur" },
+          { min: 3, max: 16, message: "用户名过短", trigger: "blur" },
+        ],
+        codeKey: [
+          { required: true, message: "验证码不能为空", trigger: "blur" },
+          { min: 6, max: 6, message: "验证码必须为6位", trigger: "blur" },
+        ],
+        email: [
+          { required: true, message: "请输入邮箱地址", trigger: "blur" },
+          {
+            type: "email",
+            message: "请输入正确的邮箱地址",
+            trigger: ["blur", "change"],
+          },
+        ],
+      },
+      isRegister: false,
+      usernameStatus: null,
+      codeStatus: "获取验证码",
     };
   },
   methods: {
     changeState() {
       this.isRegister = !this.isRegister;
+    },
+    //用户名是否被占用
+    isUsernameOccupy: _.throttle(async function (username) {
+      let params = {
+        username: username,
+      };
+      if (username.length <= 3) return (this.usernameStatus = null);
+      let res = await this.$API.reqisUsernameOccupy(params);
+      res.code == 200 ? (this.usernameStatus = 1) : (this.usernameStatus = 0);
+    }, 2000),
+    //获取验证码
+    async getCode() {
+      if (!this.userForm.email)
+        return this.$notify({
+          title: "错误",
+          message: "邮箱不可为空",
+          type: "error",
+          position: "top-left",
+        });
+      this.codeStatus = 60;
+      let timer = setInterval(() => {
+        this.codeStatus -= 1;
+        if (this.codeStatus <= 0) {
+          this.codeStatus = "获取验证码";
+          clearInterval(timer);
+        }
+      }, 1000);
+      let res = await this.$API.reqGetCode({ email: this.userForm.email });
+      if (res.code == 200) {
+        this.$notify({
+          title: "成功",
+          message: "验证码已发送到您的邮箱中，请注意查收",
+          type: "success",
+          position: "top-left",
+        });
+      }
+    },
+    //提交注册
+    async submitForm() {
+      for (let item in this.userForm) {
+        if (!this.userForm[item])
+          return this.$notify({
+            title: "错误",
+            message: "输入有误,请重新提交",
+            type: "error",
+            position: "top-left",
+          });
+      }
+      let res = await this.$API.reqReguser(this.userForm);
+      if (res.code == 200) {
+        this.$notify({
+          title: "成功",
+          message: "恭喜您，注册成功",
+          type: "success",
+          position: "top-left",
+        });
+        setTimeout(() => {
+          this.isRegister = false;
+        }, 1000);
+      } else {
+        this.$notify({
+          title: "错误",
+          message: res.message,
+          type: "error",
+          position: "top-left",
+        });
+      }
+    },
+    //登录
+    login() {
+      if (!this.loginForm.username || !this.loginForm.password)
+        return this.$notify({
+          title: "错误",
+          message: "用户名或密码不可为空",
+          type: "error",
+          position: "top-right",
+        });
+      let res = this.$store.dispatch("login", this.loginForm);
+      if(res){
+        this.$notify({
+          title: "成功",
+          message: "登陆成功！",
+          type: "success",
+          position: "top-right",
+        });
+        this.$router.push('/shop')
+      }
     },
   },
 };
@@ -82,48 +252,68 @@ input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
 }
-input[type="number"]{
+input[type="number"] {
   -moz-appearance: textfield;
 }
-
-#code {
-  padding: 0;
-  display: grid;
-  grid-template-columns: 70% 30%;
-  background-color: #fff;
-  border-radius: 0;
-  i{
-    margin-left: 25px;
-  }
-  input {
-    width: 150px;
+.el-item {
+}
+.isUsernameOccupy {
+  position: absolute;
+  right: 20px;
+  color: #67c23a;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.doNotClick {
+  cursor: not-allowed !important;
+}
+.el-input {
+  width: 350px;
+  height: 55px;
+  border-radius: 55px;
+  i {
+    line-height: 55px;
     margin-left: 20px;
-    height: 55px;
-    line-height: 1;
+    font-size: 18px;
+    color: #686767c7;
+  }
+}
+::v-deep .el-input__inner {
+  font-size: 18px;
+  font-weight: 600;
+  height: 55px;
+  border-radius: 55px;
+  background-color: #f0f0f0;
+  border: none;
+  padding-left: 60px;
+  &::placeholder {
+    color: #686767c7;
+    font-size: 18px;
     font-weight: 600;
-    font-size: 1.1rem;
-    color: #333;
   }
-  .in-code {
-    height: 55px;
-    background-color: #f0f0f0;
-    border-radius: 55px;
-    color: #333;
-    
-  }
-  .get-code {
-    height: 55px;
-    border: 0px;
-    border-radius: 55px;
-    color: #aaa;
-    font-weight: 500;
-    cursor: pointer;
-  }
+}
+::v-deep .el-form-item__error {
+  margin-left: 50px;
+  font-family: 14px;
+  font-weight: 700;
+}
+.code {
+  width: 225px;
+}
+.get-code {
+  width: 125px;
+  height: 55px;
+  border-radius: 55px;
+  background-color: #f0f0f0;
+  color: #686767c7;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  border: 0;
 }
 input {
   font-family: "Poppins", sans-serif;
 }
-
 .container {
   position: relative;
   width: 100%;
@@ -186,13 +376,14 @@ form.sign-in-form {
   margin: 10px 0;
   height: 55px;
   border-radius: 55px;
-  display: grid;
-  grid-template-columns: 15% 85%;
+  display: flex;
+  align-items: center;
   padding: 0 0.4rem;
   position: relative;
 }
 
 .input-field i {
+  margin-left: 20px;
   text-align: center;
   line-height: 55px;
   color: #acacac;
@@ -201,6 +392,7 @@ form.sign-in-form {
 }
 
 .input-field input {
+  margin-left: 18px;
   background: none;
   outline: none;
   border: none;
