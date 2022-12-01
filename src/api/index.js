@@ -26,4 +26,6 @@ export const reqReguser = (userForm) => requests({ url: '/user/reguser', method:
 export const reqLogin = (data) => requests({ url: '/user/login', method: 'post',data})
 //获取用户信息
 export const reqGetUserInfo = () => requests({ url: '/my/getUserInfo', method: 'get'})
+//获取商品详情页信息
+export const reqGetProductDetail = (skuId) => requests({ url:`search/GoodsDetail/?skuId=${skuId}`,method:'get' })
 

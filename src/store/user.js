@@ -27,7 +27,6 @@ export default {
        //获取用户信息
        async getUserInfo({commit}){
         let res = await reqGetUserInfo()
-        console.log(res)
         if(res.code == 200){
             commit('GETUSERINFO',res.data[0])
             return 'ok'

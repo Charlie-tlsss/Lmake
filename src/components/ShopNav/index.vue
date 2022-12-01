@@ -71,7 +71,7 @@ export default {
   },
   mounted() {
     let res = this.$store.dispatch("getUserInfo");
-    if (res) this.isLogin = true;
+    if (res.code == 200) this.isLogin = true;
   },
   methods: {
     getSearchList(e) {

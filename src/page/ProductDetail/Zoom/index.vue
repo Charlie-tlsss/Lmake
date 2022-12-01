@@ -1,9 +1,9 @@
 <template>
   <div class="spec-preview">
-    <img src='../images/show1.jpg' />
+    <img :src=imgList[imgIndex] />
     <div class="event" @mousemove="handler"></div>
     <div class="big">
-      <img src='../images/show1.jpg' ref="big" />
+      <img :src=imgList[imgIndex] ref="big" />
     </div>
     <div class="mask" ref="mask"></div>
   </div>
@@ -12,6 +12,7 @@
 <script>
 export default {
   name: "Zoom",
+  props:['imgList','imgIndex'],
   data() {
     return {
     };

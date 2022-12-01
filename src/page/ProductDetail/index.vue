@@ -16,27 +16,24 @@
             class="left-content"
             :class="{ startSticky: isStartStickyed, endSticky: isEndStickyed }"
           >
-            <Zoom ref="zoom" />
+            <Zoom
+              ref="zoom"
+              :imgList="productDetail.img_list"
+              :imgIndex="imgIndex"
+            />
             <div class="dcl-img-list">
               <div @click="imgListGoLeft" class="img-list-l">
                 <i class="iconfont icon-xiangzuojiantou"></i>
               </div>
               <div class="img-list-content">
                 <ul ref="listUl" :style="'left:' + offSet + 'px'">
-                  <li>
-                    <img src="./images/show1.jpg" alt="" />
-                  </li>
-                  <li>
-                    <img src="./images/show2.jpg" alt="" />
-                  </li>
-                  <li>
-                    <img src="./images/show3.jpg" alt="" />
-                  </li>
-                  <li>
-                    <img src="./images/show4.jpg" alt="" />
-                  </li>
-                  <li>
-                    <img src="./images/show5.jpg" alt="" />
+                  <li
+                    :class="{ imgListActive: imgIndex == index }"
+                    v-for="(img, index) in productDetail.img_list"
+                    :key="index"
+                    @click="changeImg(index)"
+                  >
+                    <img :src="img" alt="" />
                   </li>
                 </ul>
               </div>
@@ -47,10 +44,10 @@
           </div>
         </div>
         <div class="detail-content-right">
-          <h1 class="sku-name">iQOO Neo6 SE 12GB+256GB 星际</h1>
-          <h1 class="sku-desc">iQOO Neo6 SE 12GB+256GB 星际</h1>
+          <h1 class="sku-name">{{productDetail.goods.skuName}}</h1>
+          <h1 class="sku-desc">{{productDetail.goods.skuDesc}}</h1>
           <div class="sku-summary">
-            <div class="sku-summary-price">¥ 1299.00</div>
+            <div class="sku-summary-price">¥ {{productDetail.goods.skuPrice}}</div>
             <div class="sku-summary-active">
               <p>一站式服务</p>
               <p>满2000减0.01</p>
@@ -60,13 +57,13 @@
           <div class="sku-specs">
             <div class="title">版本</div>
             <ul>
-              <li :class="{}" v-for="item in 4" :key="item">8+128</li>
+              <li :class="{actived:index == attributeIndex}" v-for="(item,index) in productDetail.goods_attribute" :key="index" @click="changeAttribute(index)">{{item}}</li>
             </ul>
           </div>
           <div class="sku-specs">
             <div class="title">颜色</div>
             <ul>
-              <li :class="{}" v-for="item in 3" :key="item">黑色</li>
+              <li :class="{actived: index== colorIndex }" v-for="(item,index) in productDetail.goods_color" :key="index" @click="changeColor(index)">{{item}}</li>
             </ul>
           </div>
           <div class="sku-number">
@@ -81,8 +78,8 @@
           </div>
           <div class="settle">
             <div class="settle-title">
-              <div class="title-price">¥ 1999</div>
-              <div class="title-info">已选: 6GB+128GB 晴海蓝 官方标配 1件</div>
+              <div class="title-price">¥ {{endPrice}}</div>
+              <div class="title-info">已选:{{endAttribute}} {{num}}件</div>
             </div>
             <div class="settle-button">
               <div class="settle-button-buy">立即购买</div>
@@ -153,6 +150,15 @@ export default {
       detailShowTop: "",
       ParameterTop: "",
       RemarkTop: "",
+      productDetail: {
+        img_list: [],
+        goods:{},
+        goods_attribute:[],
+        goods_color:[]
+      },
+      imgIndex: 0,
+      attributeIndex:0,
+      colorIndex:0,
     };
   },
   mounted() {
@@ -163,8 +169,15 @@ export default {
       this.RemarkTop = this.$refs.Remark.$el.offsetTop;
       console.log(this.$refs.zoom.$el.offsetTop);
     }, 1000);
+    this.getData();
   },
   methods: {
+    async getData() {
+      let res = await this.$API.reqGetProductDetail(this.$route.query.skuId);
+      if (res.code == 200) {
+        this.productDetail = res.data;
+      }
+    },
     //Element计数器
     handleChange(value) {
       console.log(value);
@@ -182,12 +195,13 @@ export default {
     imgListGoLeft() {
       if (this.offSet < 0) {
         this.offSet += 93;
-        console.log(1);
+        this.imgIndex --
       }
     },
     imgListGoRight() {
       if (this.offSet > this.maxOffSet) {
         this.offSet += -93;
+        this.imgIndex ++
       }
     },
     jump(top) {
@@ -198,6 +212,15 @@ export default {
     },
     addCart() {
       this.$message.success("添加购物车成功！");
+    },
+    changeImg(index) {
+      this.imgIndex = index;
+    },
+    changeAttribute(index){
+      this.attributeIndex = index
+    },
+    changeColor(index){
+      this.colorIndex = index
     },
   },
   computed: {
@@ -224,11 +247,35 @@ export default {
     isRemarkActive() {
       return this.top >= this.RemarkTop - 50;
     },
+    endPrice(){
+      return this.productDetail.goods.skuPrice * this.num
+    },
+    endAttribute(){
+      let endAttributes = ''
+      this.productDetail.goods_attribute.forEach((item,index) => {
+        if(index == this.attributeIndex){
+          endAttributes += item +' '
+        }
+      });
+      this.productDetail.goods_color.forEach((item,index) => {
+        if(index == this.colorIndex){
+          endAttributes += item
+        }
+      });
+      return endAttributes
+    }
   },
-};
+}; 
 </script>
 
 <style lang="less" scoped>
+.imgListActive{
+  border-bottom: 3px solid rgba(0, 0, 0, 0.521);
+}
+.actived{
+  color: #f51200 !important;
+  border:1px solid #f51200 !important;
+}
 .detailTabActive {
   color: #f51200;
 }
@@ -286,7 +333,7 @@ export default {
         .img-list-content {
           position: relative;
           width: 364px;
-          height: 100%;
+          height: 93px;
           overflow: hidden;
           ul {
             position: absolute;
@@ -297,6 +344,7 @@ export default {
             }
             li {
               margin-left: 8px;
+              cursor: pointer;
               img {
                 width: 85px;
               }
@@ -361,6 +409,7 @@ export default {
           height: 134px;
           justify-content: space-between;
           li {
+            cursor: pointer;
             width: 245px;
             height: 57px;
             border: 1px solid #ddd;
